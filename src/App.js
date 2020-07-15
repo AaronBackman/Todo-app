@@ -1,24 +1,38 @@
 import React from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 function App() {
+  const todoItems = [
+    {
+      title: "cleaning",
+      date: Date.now(),
+    },
+    {
+      title: "shopping",
+      date: Date.now(),
+    },
+    {
+      title: "coding",
+      date: Date.now(),
+    },
+  ];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <div id="header"></div>
+      <div id="content">
+        <div className="todo-list">
+          {todoItems.map(todoItem => {
+            return (
+              <div className="todo-list-item">
+                <div>{todoItem.title}</div>
+                <div>{todoItem.date}</div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+      <div id="footer"></div>
     </div>
   );
 }

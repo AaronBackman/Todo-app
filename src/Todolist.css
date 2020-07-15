@@ -1,0 +1,46 @@
+.todo-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.todo-list > .sort-bar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.todo-list > .sort-bar > div {
+  flex-grow: 1;
+  background-color: aqua;
+  box-sizing: border-box;
+  border: 1px solid black;
+}
+
+.todo-list > .sort-bar > div:hover {
+  background-color: rgb(112, 245, 245);
+}
+
+.todo-list-item {
+  width: 300px;
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  border: 1px solid black;
+}
+
+.high-priority {
+  background-color: red;
+}
+
+.medium-priority {
+  background-color: yellow;
+}
+
+.low-priority {
+  background-color: green;
+}
+
+#footer {
+  height: 50px;
+  background-color: green;
+}

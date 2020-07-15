@@ -17,21 +17,3 @@
   align-items: center;
   background-color: blue;
 }
-
-.todo-list {
-  display: flex;
-  flex-direction: column;
-}
-
-.todo-list-item {
-  background-color: purple;
-  width: 300px;
-  flex-grow: 1;
-  display: flex;
-  justify-content: space-between;
-}
-
-#footer {
-  height: 50px;
-  background-color: green;
-}

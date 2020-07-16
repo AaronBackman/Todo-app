@@ -1,0 +1,41 @@
+{
+  "todoItems": [
+    {
+      "title": "cleaning",
+      "date": 2255464365740000,
+      "priority": {
+        "name": "high",
+        "value": 3
+      },
+      "id": 1
+    },
+    {
+      "title": "shopping",
+      "date": 2313342100,
+      "priority": {
+        "name": "low",
+        "value": 1
+      },
+      "id": 2
+    },
+    {
+      "title": "coding",
+      "date": 213324562330,
+      "priority": {
+        "name": "medium",
+        "value": 2
+      },
+      "id": 3
+    },
+
+    {
+      "title": "skiing",
+      "date": 12324242000,
+      "priority": {
+        "name": "high",
+        "value": 3
+      },
+      "id": 4
+    }
+  ]
+}

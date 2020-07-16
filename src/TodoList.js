@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Todolist.css'
 import Sort from './Sort.js';
+import AddItem from './AddItem.js';
 
 function TodoList() {
   // transforms timestamp to a more readable form (example: 1232436982317 => 2 weeks ago)
@@ -69,6 +70,8 @@ function TodoList() {
   }
 
   const [todoItems, setTodoItems] = useState([]);
+  // if a window is shown to make and POST a new todo item
+  const [isShownAddWindow, setIsShownAddWindow] = useState(false);
 
   useEffect(() => {
     fetch('http://localhost:3001/todoitems')
@@ -89,6 +92,11 @@ function TodoList() {
             </div>
           );
         })}
+        <div onClick={() => (setIsShownAddWindow(true))}>add new item</div>
+        <AddItem
+          isShown={isShownAddWindow} setIsShown={setIsShownAddWindow}
+          todoItems={todoItems} setTodoItems={setTodoItems}
+        />
       </div>
     </>
   );

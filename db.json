@@ -37,40 +37,13 @@
       "id": 4
     },
     {
-      "title": "ww",
-      "date": "efef",
+      "title": "sleeping",
+      "date": "12342524536643",
       "priority": {
-        "name": "high",
-        "value": 3
+        "name": "medium",
+        "value": 2
       },
       "id": 5
-    },
-    {
-      "title": "wdwq",
-      "date": "efewf",
-      "priority": {
-        "name": "high",
-        "value": 3
-      },
-      "id": 6
-    },
-    {
-      "title": "wdwd",
-      "date": "ewdw",
-      "priority": {
-        "name": "high",
-        "value": 3
-      },
-      "id": 7
-    },
-    {
-      "title": "wqdffgwgwg",
-      "date": "w",
-      "priority": {
-        "name": "high",
-        "value": 3
-      },
-      "id": 8
     }
   ]
 }

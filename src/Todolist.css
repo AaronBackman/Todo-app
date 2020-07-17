@@ -13,6 +13,7 @@
   background-color: aqua;
   box-sizing: border-box;
   border: 1px solid black;
+  cursor: pointer;
 }
 
 .todo-list > .sort-bar > div:hover {
@@ -38,6 +39,15 @@
 
 .low-priority {
   background-color: green;
+}
+
+.add-item-button {
+  background-color: brown;
+  cursor: pointer;
+}
+
+.add-item-button:hover {
+  background-color: rgb(168, 80, 80);
 }
 
 #footer {

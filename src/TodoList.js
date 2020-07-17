@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Todolist.css'
 import Sort from './Sort.js';
-import AddItem from './AddItem.js';
+import TodoItemChangeWindow from './TodoItemChangeWindow.js';
 
 function TodoList() {
   // transforms timestamp to a more readable form (example: 1232436982317 => 2 weeks ago)
@@ -71,7 +71,10 @@ function TodoList() {
 
   const [todoItems, setTodoItems] = useState([]);
   // if a window is shown to make and POST a new todo item
-  const [isShownAddWindow, setIsShownAddWindow] = useState(false);
+  const [showWindow, setShowWindow] = useState({itemListWindow: true});
+
+  // id of the todoitem to be edited, -1 if none is currently selected
+  const [editId, setEditId] = useState(-1);
 
   useEffect(() => {
     fetch('http://localhost:3001/todoitems')
@@ -80,25 +83,38 @@ function TodoList() {
   }, []);
 
 
+  if (showWindow.itemListWindow) {
+    return (
+      <>
+        <div className="todo-list">
+          <Sort todoItems={todoItems} setTodoItems={setTodoItems} />
+          {todoItems.map(todoItem => {
+            return (
+              <div key={todoItem.id} className={'todo-list-item ' + `${todoItem.priority.name + '-priority'}`}>
+                <div>{todoItem.title}</div>
+                <div>{formatDate(todoItem.date)}</div>
+                <div onClick={() => {
+                    setEditId(todoItem.id);
+                    setShowWindow({editItemWindow: true})
+                  }}>edit item</div>
+              </div>
+            );
+          })}
+          <div className="add-item-button" onClick={() => {
+              setEditId(-1);
+              setShowWindow({addItemWindow: true})
+            }}>add new item</div>
+        </div>
+      </>
+    );
+  }
+
   return (
-    <>
-      <div className="todo-list">
-        <Sort todoItems={todoItems} setTodoItems={setTodoItems} />
-        {todoItems.map(todoItem => {
-          return (
-            <div key={todoItem.id} className={'todo-list-item ' + `${todoItem.priority.name + '-priority'}`}>
-              <div>{todoItem.title}</div>
-              <div>{formatDate(todoItem.date)}</div>
-            </div>
-          );
-        })}
-        <div onClick={() => (setIsShownAddWindow(true))}>add new item</div>
-        <AddItem
-          isShown={isShownAddWindow} setIsShown={setIsShownAddWindow}
-          todoItems={todoItems} setTodoItems={setTodoItems}
-        />
-      </div>
-    </>
+    <TodoItemChangeWindow
+      showWindow={showWindow} setShowWindow={setShowWindow}
+      todoItems={todoItems} setTodoItems={setTodoItems}
+      editId={editId} setEditId={setEditId}
+    />
   );
 }
 

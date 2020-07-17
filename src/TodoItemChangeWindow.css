@@ -1,0 +1,27 @@
+.todo-item-form-container {
+  background-color: blueviolet;
+}
+
+.todo-item-form {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+}
+
+.todo-item-input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.priority-input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.priority-input > div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import './Todolist.css';
 import './TodoItemForm.css';
+import './TodoItemDelete.css';
 import Sort from './Sort.js';
 
 function TodoList() {
@@ -8,6 +9,7 @@ function TodoList() {
   // if a window is shown to make and POST a new todo item
   const [showWindow, setShowWindow] = useState({itemListWindow: true});
   const [editedTodoItem, setEditedTodoItem] = useState({});
+  const [deletedTodoItem, setDeletedTodoItem] = useState({});
 
   useEffect(() => {
     fetch('http://localhost:3001/todoitems')
@@ -21,6 +23,7 @@ function TodoList() {
       <ItemListWindow
         todoItems={todoItems} setTodoItems={setTodoItems}
         setEditedTodoItem={setEditedTodoItem}
+        setDeletedTodoItem={setDeletedTodoItem}
         setShowWindow={setShowWindow}
       />
     );
@@ -47,8 +50,12 @@ function TodoList() {
 
   if (showWindow.deleteItemWindow) {
     return (
-      <>
-      </>
+      <DeleteItemWindow
+        deletedTodoItem={deletedTodoItem}
+        setDeletedTodoItem={setDeletedTodoItem}
+        todoItems={todoItems} setTodoItems={setTodoItems}
+        setShowWindow={setShowWindow}
+      />
     )
   }
 }
@@ -126,6 +133,8 @@ function ItemListWindow(props) {
 
   const setEditedTodoItem = props.setEditedTodoItem;
 
+  const setDeletedTodoItem = props.setDeletedTodoItem;
+
   const setShowWindow = props.setShowWindow;
 
   return (
@@ -137,11 +146,17 @@ function ItemListWindow(props) {
             <div>{todoItem.title}</div>
             <div>{formatDate(todoItem.date)}</div>
             <div onClick={() => {
+                setDeletedTodoItem(todoItem);
+                setShowWindow({deleteItemWindow: true})
+              }}>
+                delete item
+            </div>
+            <div onClick={() => {
                 setEditedTodoItem(todoItem);
                 setShowWindow({editItemWindow: true})
               }}>
                 edit item
-              </div>
+            </div>
           </div>
         );
       })}
@@ -158,18 +173,6 @@ function ItemListWindow(props) {
 
 // makes window that allows user to add new todo items
 function AddItemWindow(props) {
-  function copyTodoItem(todoItem) {
-    return {
-      title: todoItem.title,
-      date: todoItem.date,
-      priority: {
-        name: todoItem.priority.name,
-        value: todoItem.priority.value,
-      },
-      id: todoItem.id,
-    };
-  }
-
   // POSTs todoItem made from user input to the server (adds new item)
   function addItem(e) {
     e.preventDefault();
@@ -186,20 +189,39 @@ function AddItemWindow(props) {
     })
       .then((response) => {
         // the default todoitem
-        setNewTodoItem(
-          {
-            title: '',
-            date: 0,
-            priority: {
-              name: 'low',
-              value: 1,
-            },
-            id: -1,
-          }
-        );
+        setNewTodoItem({});
         setShowWindow({itemListWindow: true});
       });
   }
+
+  function firstFreeIndex(todoItems) {
+    let i = 1;
+    while (true) {
+      // check if id is unused in the array
+      if (!todoItems.some(item => {
+        if (item.id === i) return true;
+
+        return false
+      })) {
+        break;
+      }
+
+      // no unused id (smaller than or equal to length) was found
+      // => all smaller id values are used, length + 1 will be the new id
+      if (i === todoItems.length + 1) {
+        break;
+      }
+
+      i++;
+    }
+
+    return i;
+  }
+
+  const todoItems = props.todoItems;
+  const setTodoItems = props.setTodoItems;
+
+  const setShowWindow = props.setShowWindow;
 
   const [newTodoItem, setNewTodoItem] = useState(
     {
@@ -209,24 +231,30 @@ function AddItemWindow(props) {
         name: 'low',
         value: 1,
       },
-      id: -1,
+      id: firstFreeIndex(todoItems),
     }
   );
 
-  const setShowWindow = props.setShowWindow;
-
-  const todoItems = props.todoItems;
-  const setTodoItems = props.setTodoItems;
-
-  if (newTodoItem.id === -1) {
-    const newTodoItemCopy = copyTodoItem(newTodoItem);
-    newTodoItemCopy.id = todoItems.length + 1;
-    setNewTodoItem(newTodoItemCopy);
+  // it is not defined => set a new default todo item
+  if (newTodoItem.id === undefined) {
+    setNewTodoItem(
+      {
+        title: '',
+        date: 0,
+        priority: {
+          name: 'low',
+          value: 1,
+        },
+        id: firstFreeIndex(todoItems),
+      }
+    )
   }
+
   return (
     <ItemForm
       handleSubmit={addItem}
       todoItem={newTodoItem} setTodoItem={setNewTodoItem}
+      setShowWindow={setShowWindow}
     />
   );
 }
@@ -241,6 +269,7 @@ function EditItemWindow(props) {
     
     const editId = editedTodoItem.id
 
+    // change the edited todo item to the edited values, other items unchanged
     setTodoItems(todoItems.map((todoItem => {
       if (todoItem.id === editId) return editedTodoItem;
 
@@ -273,6 +302,7 @@ function EditItemWindow(props) {
     <ItemForm
       handleSubmit={updateItem}
       todoItem={editedTodoItem} setTodoItem={setEditedTodoItem}
+      setShowWindow={setShowWindow}
     />
   );
 }
@@ -296,6 +326,8 @@ function ItemForm(props) {
   // todo item to be edited or added (stateful value)
   const todoItem = props.todoItem;
   const setTodoItem = props.setTodoItem;
+
+  const setShowWindow = props.setShowWindow;
 
   return (
     <div className="todo-item-form-container">
@@ -352,6 +384,12 @@ function ItemForm(props) {
            </div>
           </div>
         <input type="submit" />
+        <div className="form-cancel-button" onClick={(e) => {
+            setShowWindow({itemListWindow: true});
+            setTodoItem({});
+          }}>
+          cancel
+        </div>
       </form>
     </div>
   );
@@ -360,9 +398,46 @@ function ItemForm(props) {
 
 // used to ask confirmation to delete todo items and delete them
 function DeleteItemWindow(props) {
-  return (
-    <div>
+  function deleteItem() {
+    const deleteId = deletedTodoItem.id
 
+    // filter out the todo item that will be deleted
+    setTodoItems(todoItems.filter((todoItem => {
+      if (todoItem.id === deleteId) return false;
+
+      return true;
+    })));
+
+    fetch(`http://localhost:3001/todoitems/${deleteId}`,
+    {
+      method: "DELETE",
+    })
+      .then((response) => {
+        setShowWindow({itemListWindow: true});
+        setDeletedTodoItem({});
+      });
+  }
+
+  const deletedTodoItem = props.deletedTodoItem;
+  const setDeletedTodoItem = props.setDeletedTodoItem;
+
+  const todoItems = props.todoItems;
+  const setTodoItems = props.setTodoItems;
+
+  const setShowWindow = props.setShowWindow;
+
+  return (
+    <div className="delete-container">
+      <div className="delete-question">Are you sure?</div>
+      <div className="confirm-container">
+        <div className="confirm-button" onClick={deleteItem}>delete</div>
+        <div className="confirm-button" onClick={(e) => {
+          setShowWindow({itemListWindow: true});
+          setDeletedTodoItem({});
+        }}>
+          cancel
+        </div>
+      </div>
     </div>
   );
 }

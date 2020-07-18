@@ -1,0 +1,19 @@
+.delete-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.delete-question {
+  display: flex;
+  justify-content: center;
+}
+
+.confirm-container {
+  display: flex;
+  justify-content: center;
+}
+
+.confirm-button {
+  background-color: green;
+}

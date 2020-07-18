@@ -188,7 +188,6 @@ function AddItemWindow(props) {
       body: JSON.stringify(newTodoItem),
     })
       .then((response) => {
-        // the default todoitem
         setNewTodoItem({});
         setShowWindow({itemListWindow: true});
       });

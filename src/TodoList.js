@@ -1,9 +1,61 @@
 import React, { useState, useEffect } from 'react';
-import './Todolist.css'
+import './Todolist.css';
+import './TodoItemForm.css';
 import Sort from './Sort.js';
-import TodoItemChangeWindow from './TodoItemChangeWindow.js';
 
 function TodoList() {
+  const [todoItems, setTodoItems] = useState([]);
+  // if a window is shown to make and POST a new todo item
+  const [showWindow, setShowWindow] = useState({itemListWindow: true});
+  const [editedTodoItem, setEditedTodoItem] = useState({});
+
+  useEffect(() => {
+    fetch('http://localhost:3001/todoitems')
+      .then((response => response.json()))
+      .then(data => setTodoItems(data));
+  }, []);
+
+
+  if (showWindow.itemListWindow) {
+    return (
+      <ItemListWindow
+        todoItems={todoItems} setTodoItems={setTodoItems}
+        setEditedTodoItem={setEditedTodoItem}
+        setShowWindow={setShowWindow}
+      />
+    );
+  }
+
+  if (showWindow.addItemWindow) {
+    return (
+      <AddItemWindow
+        setShowWindow={setShowWindow}
+        todoItems={todoItems} setTodoItems={setTodoItems}
+      />
+    );
+  }
+
+  if (showWindow.editItemWindow) {
+    return (
+      <EditItemWindow
+        setShowWindow={setShowWindow}
+        todoItems={todoItems} setTodoItems={setTodoItems}
+        editedTodoItem={editedTodoItem} setEditedTodoItem={setEditedTodoItem}
+      />
+    );
+  }
+
+  if (showWindow.deleteItemWindow) {
+    return (
+      <>
+      </>
+    )
+  }
+}
+
+
+
+function ItemListWindow(props) {
   // transforms timestamp to a more readable form (example: 1232436982317 => 2 weeks ago)
   function formatDate(date) {
     const dateNow = Date.now();
@@ -69,52 +121,249 @@ function TodoList() {
     return formatedDate;
   }
 
-  const [todoItems, setTodoItems] = useState([]);
-  // if a window is shown to make and POST a new todo item
-  const [showWindow, setShowWindow] = useState({itemListWindow: true});
+  const todoItems = props.todoItems
+  const setTodoItems = props.setTodoItems;
 
-  // id of the todoitem to be edited, -1 if none is currently selected
-  const [editId, setEditId] = useState(-1);
+  const setEditedTodoItem = props.setEditedTodoItem;
 
-  useEffect(() => {
-    fetch('http://localhost:3001/todoitems')
-      .then((response => response.json()))
-      .then(data => setTodoItems(data));
-  }, []);
-
-
-  if (showWindow.itemListWindow) {
-    return (
-      <>
-        <div className="todo-list">
-          <Sort todoItems={todoItems} setTodoItems={setTodoItems} />
-          {todoItems.map(todoItem => {
-            return (
-              <div key={todoItem.id} className={'todo-list-item ' + `${todoItem.priority.name + '-priority'}`}>
-                <div>{todoItem.title}</div>
-                <div>{formatDate(todoItem.date)}</div>
-                <div onClick={() => {
-                    setEditId(todoItem.id);
-                    setShowWindow({editItemWindow: true})
-                  }}>edit item</div>
-              </div>
-            );
-          })}
-          <div className="add-item-button" onClick={() => {
-              setEditId(-1);
-              setShowWindow({addItemWindow: true})
-            }}>add new item</div>
-        </div>
-      </>
-    );
-  }
+  const setShowWindow = props.setShowWindow;
 
   return (
-    <TodoItemChangeWindow
-      showWindow={showWindow} setShowWindow={setShowWindow}
-      todoItems={todoItems} setTodoItems={setTodoItems}
-      editId={editId} setEditId={setEditId}
+    <div className="todo-list">
+      <Sort todoItems={todoItems} setTodoItems={setTodoItems} />
+      {todoItems.map(todoItem => {
+        return (
+          <div key={todoItem.id} className={'todo-list-item ' + `${todoItem.priority.name + '-priority'}`}>
+            <div>{todoItem.title}</div>
+            <div>{formatDate(todoItem.date)}</div>
+            <div onClick={() => {
+                setEditedTodoItem(todoItem);
+                setShowWindow({editItemWindow: true})
+              }}>
+                edit item
+              </div>
+          </div>
+        );
+      })}
+      <div className="add-item-button" onClick={() => {
+          setShowWindow({addItemWindow: true})
+        }}>
+          add new item
+        </div>
+    </div>
+  );
+}
+
+
+
+// makes window that allows user to add new todo items
+function AddItemWindow(props) {
+  function copyTodoItem(todoItem) {
+    return {
+      title: todoItem.title,
+      date: todoItem.date,
+      priority: {
+        name: todoItem.priority.name,
+        value: todoItem.priority.value,
+      },
+      id: todoItem.id,
+    };
+  }
+
+  // POSTs todoItem made from user input to the server (adds new item)
+  function addItem(e) {
+    e.preventDefault();
+
+    setTodoItems(todoItems.concat(newTodoItem));
+
+    fetch('http://localhost:3001/todoitems',
+    {
+      headers: {
+        "content-type": "application/json",
+      },
+      method: "POST",
+      body: JSON.stringify(newTodoItem),
+    })
+      .then((response) => {
+        // the default todoitem
+        setNewTodoItem(
+          {
+            title: '',
+            date: 0,
+            priority: {
+              name: 'low',
+              value: 1,
+            },
+            id: -1,
+          }
+        );
+        setShowWindow({itemListWindow: true});
+      });
+  }
+
+  const [newTodoItem, setNewTodoItem] = useState(
+    {
+      title: '',
+      date: 0,
+      priority: {
+        name: 'low',
+        value: 1,
+      },
+      id: -1,
+    }
+  );
+
+  const setShowWindow = props.setShowWindow;
+
+  const todoItems = props.todoItems;
+  const setTodoItems = props.setTodoItems;
+
+  if (newTodoItem.id === -1) {
+    const newTodoItemCopy = copyTodoItem(newTodoItem);
+    newTodoItemCopy.id = todoItems.length + 1;
+    setNewTodoItem(newTodoItemCopy);
+  }
+  return (
+    <ItemForm
+      handleSubmit={addItem}
+      todoItem={newTodoItem} setTodoItem={setNewTodoItem}
     />
+  );
+}
+
+
+
+// makes window that allows user to edit old todo items
+function EditItemWindow(props) {
+  // PUTs todoItem made from user input to the server (replaces old version)
+  function updateItem(e) {
+    e.preventDefault();
+    
+    const editId = editedTodoItem.id
+
+    setTodoItems(todoItems.map((todoItem => {
+      if (todoItem.id === editId) return editedTodoItem;
+
+      return todoItem;
+    })));
+
+    fetch(`http://localhost:3001/todoitems/${editId}`,
+    {
+      headers: {
+        "content-type": "application/json",
+      },
+      method: "PUT",
+      body: JSON.stringify(editedTodoItem),
+    })
+      .then((response) => {
+        setShowWindow({itemListWindow: true});
+        setEditedTodoItem({});
+      });
+  }
+
+  const setShowWindow = props.setShowWindow;
+
+  const todoItems = props.todoItems;
+  const setTodoItems = props.setTodoItems;
+
+  const editedTodoItem = props.editedTodoItem;
+  const setEditedTodoItem = props.setEditedTodoItem;
+
+  return (
+    <ItemForm
+      handleSubmit={updateItem}
+      todoItem={editedTodoItem} setTodoItem={setEditedTodoItem}
+    />
+  );
+}
+
+// makes a form used to edit existing or new todo items
+function ItemForm(props) {
+  function copyTodoItem(todoItem) {
+    return {
+      title: todoItem.title,
+      date: todoItem.date,
+      priority: {
+        name: todoItem.priority.name,
+        value: todoItem.priority.value,
+      },
+      id: todoItem.id,
+    };
+  }
+
+  const handleSubmit = props.handleSubmit;
+
+  // todo item to be edited or added (stateful value)
+  const todoItem = props.todoItem;
+  const setTodoItem = props.setTodoItem;
+
+  return (
+    <div className="todo-item-form-container">
+      <form className="todo-item-form" onSubmit={handleSubmit}>
+        <div className="todo-item-input">
+          <label htmlFor="title">enter title</label>
+          <input type="text" id="title" name="title" value={todoItem.title} onChange={(e) => {
+            const copy = copyTodoItem(todoItem);
+            copy.title = e.target.value;
+            setTodoItem(copy);
+          }} />
+        </div>
+        <div className="todo-item-input">
+          <label htmlFor="date">enter date</label>
+          <input type="number" id="date" name="date" value={todoItem.date} onChange={(e) => {
+            const copy = copyTodoItem(todoItem);
+            copy.date = e.target.value;
+            setTodoItem(copy);
+          }} />
+        </div>
+        <div className="priority-input">
+          <label htmlFor="priority">priority</label>
+          <div>
+            <div>low</div>
+            <input type="radio" id="low-priority" name="priority"
+              value="low" checked={todoItem.priority.name === 'low'}
+              onChange={(e) => {
+                const copy = copyTodoItem(todoItem);
+                copy.priority.name = 'low';
+                copy.priority.value = 1;
+                setTodoItem(copy);
+              }}
+            />
+            <div>medium</div>
+            <input type="radio" id="medium-priority" name="priority"
+              value="medium" checked={todoItem.priority.name === 'medium'}
+              onChange={(e) => {
+                const copy = copyTodoItem(todoItem);
+                copy.priority.name = 'medium';
+                copy.priority.value = 2;
+                setTodoItem(copy);
+              }}
+            />
+            <div>high</div>
+            <input type="radio" id="high-priority" name="priority"
+              value="high" checked={todoItem.priority.name === 'high'}
+              onChange={(e) => {
+                const copy = copyTodoItem(todoItem);
+                copy.priority.name = 'high';
+                copy.priority.value = 3;
+                setTodoItem(copy);
+              }}
+            />
+           </div>
+          </div>
+        <input type="submit" />
+      </form>
+    </div>
+  );
+}
+
+
+// used to ask confirmation to delete todo items and delete them
+function DeleteItemWindow(props) {
+  return (
+    <div>
+
+    </div>
   );
 }
 

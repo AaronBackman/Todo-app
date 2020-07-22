@@ -4,8 +4,11 @@ import ItemMenu from './ItemMenu.js';
 
 // component to show a single todo item in a list of todo items
 function TodoItem(props) {
-  // transforms timestamp to a more readable form (example: 1232436982317 => 2 weeks ago)
+  // transforms date string to time from now (eg. 2000-2-4 => 20 years ago)
   function formatDate(date) {
+    // date string to milliseconds since 1970
+    date = Date.parse(date);
+
     const dateNow = Date.now();
     let formatedDate = '';
     // is date in the future or not;

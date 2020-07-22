@@ -19,7 +19,8 @@ function Sort(props) {
 
     // sorts the ones that come earlier first
     newTodoItems.sort((a, b) => {
-      return a.date - b.date;
+      // changes date string to milliseconds since 1970 and subtracts them
+      return Date.parse(a.date) - Date.parse(b.date);
     });
 
     setTodoItems(newTodoItems);

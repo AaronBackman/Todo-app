@@ -18,7 +18,6 @@ function TodoList() {
       .then(data => setTodoItems(data));
   }, []);
 
-
   if (showWindow.itemListWindow) {
     return (
       <ItemListWindow
@@ -116,27 +115,29 @@ function AddItemWindow(props) {
   }
 
   function firstFreeIndex(todoItems) {
-    let i = 1;
+    function checkIfNoMatch(item, value) {
+      if (item.id === value) return false;
+
+      return true
+    }
+
+    let index = 1;
     while (true) {
       // check if id is unused in the array
-      if (!todoItems.some(item => {
-        if (item.id === i) return true;
-
-        return false
-      })) {
+      if (todoItems.every(item => checkIfNoMatch(item, index))) {
         break;
       }
 
       // no unused id (smaller than or equal to length) was found
       // => all smaller id values are used, length + 1 will be the new id
-      if (i === todoItems.length + 1) {
+      if (index === todoItems.length + 1) {
         break;
       }
 
-      i++;
+      index++;
     }
 
-    return i;
+    return index;
   }
 
   const todoItems = props.todoItems;
@@ -255,7 +256,7 @@ function ItemForm(props) {
       <form className="todo-item-form" onSubmit={handleSubmit}>
         <div className="todo-item-input">
           <label htmlFor="title">enter title</label>
-          <input type="text" id="title" name="title" value={todoItem.title} onChange={(e) => {
+          <input type="text" id="title" name="title" value={todoItem.title} onChange={e => {
             const copy = copyTodoItem(todoItem);
             copy.title = e.target.value;
             setTodoItem(copy);
@@ -263,7 +264,7 @@ function ItemForm(props) {
         </div>
         <div className="todo-item-input">
           <label htmlFor="date">enter date</label>
-          <input type="number" id="date" name="date" value={todoItem.date} onChange={(e) => {
+          <input type="date" id="date" name="date" value={todoItem.date} onChange={e => {
             const copy = copyTodoItem(todoItem);
             copy.date = e.target.value;
             setTodoItem(copy);
@@ -275,7 +276,7 @@ function ItemForm(props) {
             <div>low</div>
             <input type="radio" id="low-priority" name="priority"
               value="low" checked={todoItem.priority.name === 'low'}
-              onChange={(e) => {
+              onChange={() => {
                 const copy = copyTodoItem(todoItem);
                 copy.priority.name = 'low';
                 copy.priority.value = 1;
@@ -285,7 +286,7 @@ function ItemForm(props) {
             <div>medium</div>
             <input type="radio" id="medium-priority" name="priority"
               value="medium" checked={todoItem.priority.name === 'medium'}
-              onChange={(e) => {
+              onChange={() => {
                 const copy = copyTodoItem(todoItem);
                 copy.priority.name = 'medium';
                 copy.priority.value = 2;
@@ -295,7 +296,7 @@ function ItemForm(props) {
             <div>high</div>
             <input type="radio" id="high-priority" name="priority"
               value="high" checked={todoItem.priority.name === 'high'}
-              onChange={(e) => {
+              onChange={() => {
                 const copy = copyTodoItem(todoItem);
                 copy.priority.name = 'high';
                 copy.priority.value = 3;
@@ -305,7 +306,7 @@ function ItemForm(props) {
            </div>
           </div>
         <input type="submit" />
-        <div className="form-cancel-button" onClick={(e) => {
+        <div className="form-cancel-button" onClick={() => {
             setShowWindow({itemListWindow: true});
             setTodoItem({});
           }}>
@@ -352,7 +353,7 @@ function DeleteItemWindow(props) {
       <div className="delete-question">Are you sure?</div>
       <div className="confirm-container">
         <div className="confirm-button" onClick={deleteItem}>delete</div>
-        <div className="confirm-button" onClick={(e) => {
+        <div className="confirm-button" onClick={() => {
           setShowWindow({itemListWindow: true});
           setDeletedTodoItem({});
         }}>

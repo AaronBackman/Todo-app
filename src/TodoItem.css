@@ -1,0 +1,22 @@
+.todo-list-item {
+  position: relative;
+  width: 300px;
+  flex-grow: 1;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+  border: 1px solid black;
+  cursor: pointer;
+}
+
+.high-priority {
+  background-color: red;
+}
+
+.medium-priority {
+  background-color: yellow;
+}
+
+.low-priority {
+  background-color: green;
+}

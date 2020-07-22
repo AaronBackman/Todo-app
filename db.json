@@ -1,40 +1,13 @@
 {
   "todoItems": [
     {
-      "title": "12122323",
-      "date": "32134431442424",
-      "priority": {
-        "name": "high",
-        "value": 3
-      },
-      "id": 2
-    },
-    {
-      "title": "coding",
-      "date": 213324562330,
-      "priority": {
-        "name": "medium",
-        "value": 2
-      },
-      "id": 3
-    },
-    {
-      "title": "eeeeee",
-      "date": "055454",
+      "title": "eeeerr",
+      "date": "055454343423434",
       "priority": {
         "name": "low",
         "value": 1
       },
       "id": 6
-    },
-    {
-      "title": "goinge",
-      "date": "434",
-      "priority": {
-        "name": "low",
-        "value": 1
-      },
-      "id": 7
     },
     {
       "title": "duck food",
@@ -107,15 +80,6 @@
         "value": 3
       },
       "id": 14
-    },
-    {
-      "title": "ewdaf",
-      "date": "1231423525",
-      "priority": {
-        "name": "medium",
-        "value": 2
-      },
-      "id": 5
     },
     {
       "title": "werewr",

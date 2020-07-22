@@ -20,29 +20,10 @@
   background-color: rgb(112, 245, 245);
 }
 
-.todo-list-item {
-  width: 300px;
-  flex-grow: 1;
-  display: flex;
-  justify-content: space-between;
-  box-sizing: border-box;
-  border: 1px solid black;
-}
-
-.high-priority {
-  background-color: red;
-}
-
-.medium-priority {
-  background-color: yellow;
-}
-
-.low-priority {
-  background-color: green;
-}
-
 .add-item-button {
   background-color: brown;
+  box-sizing: border-box;
+  border: 1px solid black;
   cursor: pointer;
 }
 

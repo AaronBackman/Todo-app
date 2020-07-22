@@ -1,5 +1,6 @@
 .delete-container {
   display: flex;
+  background-color: green;
   flex-direction: column;
   align-items: center;
 }
@@ -15,5 +16,13 @@
 }
 
 .confirm-button {
-  background-color: green;
+  background-color: red;
+  border: 1px solid black;
+  margin: 5px;
+  padding: 3px;
+  cursor: pointer;
+}
+
+.confirm-button:hover {
+  background-color: rgb(245, 72, 72);
 }

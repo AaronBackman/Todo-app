@@ -1,5 +1,6 @@
 .todo-item-form-container {
-  background-color: blueviolet;
+  background-color: #fff52f;
+  border: 1px solid black;
 }
 
 .todo-item-form {
@@ -34,10 +35,10 @@
 .form-cancel-button {
   display: flex;
   justify-content: center;
-  background-color: goldenrod;
+  background-color: #ff2f44;
 }
 
 .form-cancel-button:hover {
-  background-color: rgb(214, 174, 74);
+  background-color: rgb(255, 0, 25);
   cursor: pointer;
 }

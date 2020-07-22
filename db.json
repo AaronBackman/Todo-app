@@ -13,8 +13,8 @@
       "title": "duck food",
       "date": "1443564786588",
       "priority": {
-        "name": "high",
-        "value": 3
+        "name": "medium",
+        "value": 2
       },
       "id": 8
     },
@@ -49,8 +49,8 @@
       "title": "fefefe",
       "date": "454546",
       "priority": {
-        "name": "low",
-        "value": 1
+        "name": "medium",
+        "value": 2
       },
       "id": 9
     },

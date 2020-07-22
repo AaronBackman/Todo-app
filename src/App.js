@@ -5,11 +5,11 @@ import TodoList from './TodoList';
 function App() {
   return (
     <div className="container">
-      <div id="header"></div>
-      <div id="content">
+      <div className="header"></div>
+      <div className="content">
         <TodoList />
       </div>
-      <div id="footer"></div>
+      <div className="footer"></div>
     </div>
   );
 }

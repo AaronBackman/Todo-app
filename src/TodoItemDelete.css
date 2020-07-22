@@ -1,8 +1,10 @@
 .delete-container {
   display: flex;
-  background-color: green;
+  background-color: #822fff;
+  color: white;
   flex-direction: column;
   align-items: center;
+  border: 1px solid red;
 }
 
 .delete-question {
@@ -16,7 +18,7 @@
 }
 
 .confirm-button {
-  background-color: red;
+  background-color: #ff2f44;
   border: 1px solid black;
   margin: 5px;
   padding: 3px;
@@ -24,5 +26,5 @@
 }
 
 .confirm-button:hover {
-  background-color: rgb(245, 72, 72);
+  background-color: rgb(255, 0, 25);
 }

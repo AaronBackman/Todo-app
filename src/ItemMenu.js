@@ -22,7 +22,9 @@ function ItemMenu(props) {
           setDeletedTodoItem(todoItem);
           setShowWindow({deleteItemWindow: true})
         }}>
-          delete item
+          <div>
+            delete item
+          </div>
       </div>
       <div
         className="menu-button"
@@ -30,14 +32,18 @@ function ItemMenu(props) {
           setEditedTodoItem(todoItem);
           setShowWindow({editItemWindow: true})
         }}>
-          edit item
+          <div>
+            edit item
+          </div>
       </div>
       <div
         className="menu-button"
         onClick={() => {
           setShowItemMenu(false);
         }}>
-          cancel
+          <div>
+            cancel
+          </div>
       </div>
     </div>
   );

@@ -10,13 +10,25 @@
 }
 
 .high-priority {
-  background-color: red;
+  background-color: #ff2f44;
+}
+
+.high-priority:hover {
+  background-color: rgb(255, 0, 25);
 }
 
 .medium-priority {
-  background-color: yellow;
+  background-color: #faf039;
+}
+
+.medium-priority:hover {
+  background-color: #fff200;
 }
 
 .low-priority {
-  background-color: green;
+  background-color: #44ff2f;
+}
+
+.low-priority:hover {
+  background-color: rgb(152, 253, 0);
 }

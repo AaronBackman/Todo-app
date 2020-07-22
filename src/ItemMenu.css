@@ -2,22 +2,27 @@
   position: absolute;
   left: 300px;
   z-index: 2;
-  background-color: greenyellow;
+  background-color: #fff52f;
   border: 1px solid black;
+  color: white;
   display: flex;
   flex-direction: column;
   cursor: default;
 }
 
 .menu-button {
-  background-color: red;
+  background-color: #ff2f44;
   white-space: nowrap;
   padding: 3px;
   margin: 5px;
   border: 1px solid black;
   cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .menu-button:hover {
-  background-color: rgb(245, 69, 69);
+  background-color: rgb(255, 0, 25);
 }

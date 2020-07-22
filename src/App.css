@@ -5,15 +5,20 @@
   width: 100vw;
 }
 
-#header {
+.header {
   height: 50px;
-  background-color: red;
+  background-color: #44ff2f;
 }
 
-#content {
+.content {
   flex-grow: 1;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: blue;
+  background-color: #adff2f;
+}
+
+.footer {
+  height: 50px;
+  background-color: #44ff2f;
 }

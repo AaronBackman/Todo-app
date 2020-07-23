@@ -7,6 +7,7 @@
         "name": "low",
         "value": 1
       },
+      "isCompleted": false,
       "id": 6
     },
     {
@@ -16,6 +17,7 @@
         "name": "medium",
         "value": 2
       },
+      "isCompleted": false,
       "id": 8
     },
     {
@@ -25,6 +27,7 @@
         "name": "medium",
         "value": 2
       },
+      "isCompleted": false,
       "id": 9
     },
     {
@@ -34,6 +37,7 @@
         "name": "low",
         "value": 1
       },
+      "isCompleted": false,
       "id": 13
     },
     {
@@ -52,6 +56,7 @@
         "name": "high",
         "value": 3
       },
+      "isCompleted": false,
       "id": 12
     },
     {
@@ -61,6 +66,7 @@
         "name": "low",
         "value": 1
       },
+      "isCompleted": false,
       "id": 2
     },
     {
@@ -79,6 +85,7 @@
         "name": "low",
         "value": 1
       },
+      "isCompleted": false,
       "id": 11
     }
   ]

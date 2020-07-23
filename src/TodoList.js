@@ -83,6 +83,8 @@ function ItemListWindow(props) {
                                       setShowWindow={setShowWindow}
                                       setEditedTodoItem={setEditedTodoItem}
                                       setDeletedTodoItem={setDeletedTodoItem}
+                                      todoItems={todoItems}
+                                      setTodoItems={setTodoItems}
                                     />)
         }
       </div>
@@ -178,6 +180,7 @@ function AddItemWindow(props) {
         name: 'low',
         value: 1,
       },
+      isCompleted: false,
       id: firstFreeIndex(todoItems),
     }
   );
@@ -192,6 +195,7 @@ function AddItemWindow(props) {
           name: 'low',
           value: 1,
         },
+        isCompleted: false,
         id: firstFreeIndex(todoItems),
       }
     )
@@ -264,6 +268,7 @@ function ItemForm(props) {
         name: todoItem.priority.name,
         value: todoItem.priority.value,
       },
+      isCompleted: todoItem.isCompleted,
       id: todoItem.id,
     };
   }

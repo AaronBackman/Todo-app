@@ -7,31 +7,61 @@
   cursor: pointer;
 }
 
-.high-priority {
+
+.todo-item-uncompleted.high-priority {
   background-color: #e64268;
 }
 
-.high-priority:hover {
+.todo-item-uncompleted.high-priority:hover {
   background-color: rgb(255, 0, 25);
 }
 
-.medium-priority {
+.todo-item-uncompleted.medium-priority {
   background-color: #e6d342;
 }
 
-.medium-priority:hover {
+.todo-item-uncompleted.medium-priority:hover {
   background-color: #fff200;
 }
 
-.low-priority {
+.todo-item-uncompleted.low-priority {
   background-color: #68e642;
 }
 
-.low-priority:hover {
+.todo-item-uncompleted.low-priority:hover {
   background-color: rgb(152, 253, 0);
 }
 
-.todo-item-uncompleted {
+
+
+
+.todo-item-completed.high-priority {
+  background-color: rgb(180, 180, 180);
+}
+
+.todo-item-completed.high-priority:hover {
+  background-color: rgb(255, 255, 255);
+}
+
+.todo-item-completed.medium-priority {
+  background-color: rgb(180, 180, 180);
+}
+
+.todo-item-completed.medium-priority:hover {
+  background-color: rgb(255, 255, 255);
+}
+
+.todo-item-completed.low-priority {
+  background-color: rgb(180, 180, 180);
+}
+
+.todo-item-completed.low-priority:hover {
+  background-color: rgb(255, 255, 255);
+}
+
+
+
+.complete-button {
   width: 2em;
   height: 2em;
   background-color: gray;
@@ -39,7 +69,7 @@
   margin: 5px;
 }
 
-.todo-item-uncompleted:hover {
+.complete-button:hover {
   width: 2em;
   height: 2em;
   background-color: rgb(73, 73, 73);

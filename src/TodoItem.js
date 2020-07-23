@@ -84,14 +84,16 @@ function TodoItem(props) {
 
   return (
     <div
+      id={todoItem.id}
       className={'todo-list-item ' + `${todoItem.priority.name + '-priority'}`}
       onClick={() => {
         const toggledShowItemMenu = !showItemMenu
         setShowItemMenu(toggledShowItemMenu)
       }}
     >
-      <div>{todoItem.title}</div>
-      <div>{formatDate(todoItem.date)}</div>
+      <div className="todo-item-text">{todoItem.title}</div>
+      <div className="todo-item-text">{formatDate(todoItem.date)}</div>
+      <div className="todo-item-uncompleted"></div>
       {showItemMenu ?
       <ItemMenu
         setShowItemMenu={setShowItemMenu}

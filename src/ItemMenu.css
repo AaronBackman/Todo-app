@@ -1,8 +1,7 @@
 .menu-container {
   position: absolute;
-  left: 300px;
   z-index: 2;
-  background-color: #fff52f;
+  background-color: #e6d342;
   border: 1px solid black;
   color: white;
   display: flex;
@@ -11,7 +10,7 @@
 }
 
 .menu-button {
-  background-color: #ff2f44;
+  background-color: #e64268;
   white-space: nowrap;
   padding: 3px;
   margin: 5px;

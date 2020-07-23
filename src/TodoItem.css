@@ -1,7 +1,5 @@
 .todo-list-item {
-  position: relative;
   width: 300px;
-  flex-grow: 1;
   display: flex;
   justify-content: space-between;
   box-sizing: border-box;
@@ -10,7 +8,7 @@
 }
 
 .high-priority {
-  background-color: #ff2f44;
+  background-color: #e64268;
 }
 
 .high-priority:hover {
@@ -18,7 +16,7 @@
 }
 
 .medium-priority {
-  background-color: #faf039;
+  background-color: #e6d342;
 }
 
 .medium-priority:hover {
@@ -26,9 +24,31 @@
 }
 
 .low-priority {
-  background-color: #44ff2f;
+  background-color: #68e642;
 }
 
 .low-priority:hover {
   background-color: rgb(152, 253, 0);
+}
+
+.todo-item-uncompleted {
+  width: 2em;
+  height: 2em;
+  background-color: gray;
+  border: 1px solid black;
+  margin: 5px;
+}
+
+.todo-item-uncompleted:hover {
+  width: 2em;
+  height: 2em;
+  background-color: rgb(73, 73, 73);
+}
+
+.todo-item-text {
+  flex-grow: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }

@@ -11,8 +11,18 @@ function ItemMenu(props) {
 
   const todoItem = props.todoItem;
 
+
+  // give position to the item menu based on the selected todo item
+  const todoItemDiv = document.getElementById(todoItem.id);
+  const boundingRect = todoItemDiv.getBoundingClientRect();
+
+  // get width of the scroll bar
+  const scrollDiv = document.querySelector('.todo-list');
+  const scrollBarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth - 2 * 1;
+
   return (
     <div
+      style={{left: `${boundingRect.right + scrollBarWidth}px`}}
       className="menu-container"
       onClick={e => e.stopPropagation()}
     >

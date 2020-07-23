@@ -1,6 +1,18 @@
 import React from 'react';
 
 function Sort(props) {
+  // yyyy-mm-dd to milliseconds since 1970
+  function parseDate(date){
+    const parts = date.split('-');
+
+    // in a date object months is zero-based
+    parts[1] = parts[1] - 1;
+
+    const dateObj = new Date(parts[0], parts[1], parts[2]);
+
+    return dateObj.getTime();
+  }
+
   const todoItems = props.todoItems;
   const setTodoItems = props.setTodoItems;
 
@@ -20,7 +32,7 @@ function Sort(props) {
     // sorts the ones that come earlier first
     newTodoItems.sort((a, b) => {
       // changes date string to milliseconds since 1970 and subtracts them
-      return Date.parse(a.date) - Date.parse(b.date);
+      return parseDate(a.date) - parseDate(b.date);
     });
 
     setTodoItems(newTodoItems);
@@ -28,8 +40,12 @@ function Sort(props) {
 
   return (
     <div className="sort-bar">
-      <div onClick={sortByPriority}>Sort by priority</div>
-      <div onClick={sortByRemainingTime}>Sort by remaining time</div>
+      <div className="sort-bar-text"
+        onClick={sortByPriority}>Sort by priority
+      </div>
+      <div className="sort-bar-text"
+        onClick={sortByRemainingTime}>Sort by remaining time
+      </div>
     </div>
   );
 }

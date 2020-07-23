@@ -7,7 +7,7 @@
 
 .header {
   height: 50px;
-  background-color: #44ff2f;
+  background-color: #428ce6;
 }
 
 .content {
@@ -15,10 +15,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #adff2f;
+  background-color: #f7f7f7;
 }
 
 .footer {
   height: 50px;
-  background-color: #44ff2f;
+  background-color: #428ce6;
 }

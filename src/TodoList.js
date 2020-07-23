@@ -60,8 +60,6 @@ function TodoList() {
   }
 }
 
-
-
 function ItemListWindow(props) {
   const todoItems = props.todoItems
   const setTodoItems = props.setTodoItems;
@@ -73,14 +71,21 @@ function ItemListWindow(props) {
   const setShowWindow = props.setShowWindow;
 
   return (
-    <div className="todo-list">
+    <div>
       <Sort todoItems={todoItems} setTodoItems={setTodoItems} />
-      {todoItems.map(todoItem => <TodoItem key={todoItem.id}
-                                   todoItem={todoItem}
-                                   setShowWindow={setShowWindow}
-                                   setEditedTodoItem={setEditedTodoItem}
-                                   setDeletedTodoItem={setDeletedTodoItem}
-                                 />)}
+      <div
+        className="todo-list"
+        style={{height: `${window.innerHeight - 180}px`}}
+      >
+        {
+          todoItems.map(todoItem => <TodoItem key={todoItem.id}
+                                      todoItem={todoItem}
+                                      setShowWindow={setShowWindow}
+                                      setEditedTodoItem={setEditedTodoItem}
+                                      setDeletedTodoItem={setDeletedTodoItem}
+                                    />)
+        }
+      </div>
       <div className="add-item-button" onClick={() => {
           setShowWindow({addItemWindow: true})
         }}>
@@ -140,6 +145,26 @@ function AddItemWindow(props) {
     return index;
   }
 
+  // date object to yyyy-mm-dd format
+  function dateToString(dateObj) {
+    const dateParts = [
+                        dateObj.getFullYear(),
+                        dateObj.getMonth(),
+                        dateObj.getDate(),
+                      ];
+
+    if (dateParts[1].toString().length === 1) {
+      dateParts[1] = '0' + dateParts[1];
+      console.log(dateParts);
+    }
+
+    if (dateParts[2].toString().length === 1) {
+      dateParts[2] = '0' + dateParts[2];
+    }
+    
+    return dateParts.join('-');
+  }
+
   const todoItems = props.todoItems;
   const setTodoItems = props.setTodoItems;
 
@@ -148,7 +173,7 @@ function AddItemWindow(props) {
   const [newTodoItem, setNewTodoItem] = useState(
     {
       title: '',
-      date: 0,
+      date: dateToString(new Date()),
       priority: {
         name: 'low',
         value: 1,
@@ -162,7 +187,7 @@ function AddItemWindow(props) {
     setNewTodoItem(
       {
         title: '',
-        date: 0,
+        date: dateToString(new Date()),
         priority: {
           name: 'low',
           value: 1,

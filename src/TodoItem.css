@@ -36,32 +36,32 @@
 
 
 .todo-item-completed.high-priority {
-  background-color: rgb(180, 180, 180);
+  background-color: #ff86a3;
 }
 
 .todo-item-completed.high-priority:hover {
-  background-color: rgb(255, 255, 255);
+  background-color: #ff5f84;
 }
 
 .todo-item-completed.medium-priority {
-  background-color: rgb(180, 180, 180);
+  background-color: #fced7a;
 }
 
 .todo-item-completed.medium-priority:hover {
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(252, 242, 63);
 }
 
 .todo-item-completed.low-priority {
-  background-color: rgb(180, 180, 180);
+  background-color: #a6ff8b;
 }
 
 .todo-item-completed.low-priority:hover {
-  background-color: rgb(255, 255, 255);
+  background-color: #6afc3e;
 }
 
 
 
-.complete-button {
+.todo-item-completed > .complete-button {
   width: 2em;
   height: 2em;
   background-color: gray;
@@ -69,10 +69,12 @@
   margin: 5px;
 }
 
-.complete-button:hover {
+.todo-item-uncompleted > .complete-button {
   width: 2em;
   height: 2em;
-  background-color: rgb(73, 73, 73);
+  background-color: #f7f7f7;
+  border: 1px solid gray;
+  margin: 5px;
 }
 
 .todo-item-text {

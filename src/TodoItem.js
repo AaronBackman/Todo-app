@@ -17,72 +17,29 @@ function TodoItem(props) {
     };
   }
 
-  // transforms date string to time from now (eg. 2000-2-4 => 20 years ago)
+  // yyyy-mm-dd date format to mm/dd/yyyy
   function formatDate(date) {
-    // date string to milliseconds since 1970
-    date = Date.parse(date);
+    const dateParts = date.split('-');
 
-    const dateNow = Date.now();
-    let formatedDate = '';
-    // is date in the future or not;
-    let inFuture = true;
+    // switch years from the beginning to the end
+    const years = dateParts[0];
+    dateParts[0] = dateParts[1];
+    dateParts[1] = dateParts[2];
+    dateParts[2] = years;
 
-    if ((date - dateNow) < 0) {
-      inFuture = false;
-    }
-
-    const dateDiff = Math.abs(date - dateNow);
-
-    // example: shownDateNumbers is 2 if date is in 2 weeks
-    let shownDateNumbers;
-
-    // years
-    if (dateDiff >= (1000 * 60 * 60 * 24 * 365)) {
-      shownDateNumbers = Math.round(dateDiff / (1000 * 60 * 60 * 24 * 365));
-      formatedDate = `${shownDateNumbers} years`;
-    }
-    // months
-    else if (dateDiff >= (1000 * 60 * 60 * 24 * 30)) {
-      shownDateNumbers = Math.round(dateDiff / (1000 * 60 * 60 * 24 * 30));
-      formatedDate = `${shownDateNumbers} months`;
-    }
-    // weeks
-    else if (dateDiff >= (1000 * 60 * 60 * 24 * 7)) {
-      shownDateNumbers = Math.round(dateDiff / (1000 * 60 * 60 * 24 * 7));
-      formatedDate = `${shownDateNumbers} weeks`;
-    }
-    // days
-    else if (dateDiff >= (1000 * 60 * 60 * 24)) {
-      shownDateNumbers = Math.round(dateDiff / (1000 * 60 * 60 * 24));
-      formatedDate = `${shownDateNumbers} days`;
-    }
-    // hours
-    else if (dateDiff >= (1000 * 60 * 60)) {
-      shownDateNumbers = Math.round(dateDiff / (1000 * 60 * 60));
-      formatedDate = `${shownDateNumbers} hours`;
-    }
-    // minutes
-    else if (dateDiff >= (1000 * 60)) {
-      shownDateNumbers = Math.round(dateDiff / (1000 * 60));
-      formatedDate = `${shownDateNumbers} minutes`;
-    }
-    // seconds
-    else if (dateDiff >= 0) {
-      // the event is basically happening right now
-      inFuture = true;
-      formatedDate = 'now';
+    // take 0 from beginning of days and months (but not years)
+    for(let i = 0; i < dateParts.length - 1; i++) {
+      if (dateParts[i].slice(0, 1) === '0') {
+        dateParts[i] = dateParts[i].slice(1);
+      }
     }
 
-    // takes s from the end if there is only 1 (1 days => 1 day)
-    if (shownDateNumbers === 1) {
-      formatedDate = formatedDate.slice(0, -1)
+    // remove year, if it is the current year
+    if (Number(dateParts[2]) === new Date().getFullYear()) {
+      dateParts.pop();
     }
-
-    if (!inFuture) {
-      formatedDate += ' ago';
-    }
-
-    return formatedDate;
+    
+    return dateParts.join('/');
   }
 
   let todoItem = props.todoItem;

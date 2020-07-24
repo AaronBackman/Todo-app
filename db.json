@@ -27,7 +27,7 @@
         "name": "medium",
         "value": 2
       },
-      "isCompleted": false,
+      "isCompleted": true,
       "id": 9
     },
     {
@@ -47,6 +47,7 @@
         "name": "high",
         "value": 3
       },
+      "isCompleted": false,
       "id": 14
     },
     {
@@ -56,7 +57,7 @@
         "name": "high",
         "value": 3
       },
-      "isCompleted": false,
+      "isCompleted": true,
       "id": 12
     },
     {
@@ -76,6 +77,7 @@
         "name": "low",
         "value": 1
       },
+      "isCompleted": false,
       "id": 3
     },
     {
@@ -87,6 +89,36 @@
       },
       "isCompleted": false,
       "id": 11
+    },
+    {
+      "title": "going",
+      "date": "2020-07-25",
+      "priority": {
+        "name": "low",
+        "value": 1
+      },
+      "isCompleted": false,
+      "id": 1
+    },
+    {
+      "title": "rrr",
+      "date": "2020-07-24",
+      "priority": {
+        "name": "medium",
+        "value": 2
+      },
+      "isCompleted": false,
+      "id": 4
+    },
+    {
+      "title": "laterrr",
+      "date": "2021-07-24",
+      "priority": {
+        "name": "high",
+        "value": 3
+      },
+      "isCompleted": false,
+      "id": 5
     }
   ]
 }

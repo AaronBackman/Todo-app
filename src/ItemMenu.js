@@ -22,7 +22,11 @@ function ItemMenu(props) {
 
   return (
     <div
-      style={{left: `${boundingRect.right + scrollBarWidth}px`}}
+      style={
+        {
+          top: `${boundingRect.top}px`,
+          left: `${boundingRect.right + scrollBarWidth}px`,
+        }}
       className="menu-container"
       onClick={e => e.stopPropagation()}
     >

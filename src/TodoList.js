@@ -2,10 +2,33 @@ import React, { useState, useEffect } from 'react';
 import './Todolist.css';
 import './TodoItemForm.css';
 import './TodoItemDelete.css';
-import Sort from './Sort.js';
 import TodoItem from './TodoItem.js';
 
 function TodoList() {
+  function sortByRemainingTime(todoItems) {
+    const newTodoItems = todoItems.concat();
+
+    // sorts the ones that come earlier first
+    newTodoItems.sort((a, b) => {
+      // changes date string to milliseconds since 1970 and subtracts them
+      return parseDate(a.date) - parseDate(b.date);
+    });
+
+    return newTodoItems;
+  }
+
+  // yyyy-mm-dd to milliseconds since 1970
+  function parseDate(date){
+    const parts = date.split('-');
+
+    // in a date object months is zero-based
+    parts[1] = parts[1] - 1;
+
+    const dateObj = new Date(parts[0], parts[1], parts[2]);
+
+    return dateObj.getTime();
+  }
+
   const [todoItems, setTodoItems] = useState([]);
   // if a window is shown to make and POST a new todo item
   const [showWindow, setShowWindow] = useState({itemListWindow: true});
@@ -15,7 +38,7 @@ function TodoList() {
   useEffect(() => {
     fetch('http://localhost:3001/todoitems')
       .then((response => response.json()))
-      .then(data => setTodoItems(data));
+      .then(data => setTodoItems(sortByRemainingTime(data)));
   }, []);
 
   if (showWindow.itemListWindow) {
@@ -61,6 +84,92 @@ function TodoList() {
 }
 
 function ItemListWindow(props) {
+  // divides into parts containing different todoItems
+  //(eg. before today, today, in a week, in a month...)
+  function divideIntoPartsByTime(todoItems) {
+    // filters items in timerange
+    //for example (tomorrow: between days 1 and 2)
+    function betweenDays(todoItems, beginDay, endDay) {
+      const sorted = todoItems.filter(todoItem => {
+        return (
+          (parseDate(todoItem.date) >= getTodayTimeStamp() + beginDay * day) &&
+          (parseDate(todoItem.date) < (getTodayTimeStamp() + endDay * day))
+        );
+      });
+
+      return sorted;
+    }
+
+    const todoItemsInParts = [];
+
+    //day in milliseconds
+    const day = 1000 * 60 * 60 * 24;
+
+    // todoItems that have deadline before today
+    const late =
+      todoItems
+        .filter(todoItem => {
+          return parseDate(todoItem.date) < getTodayTimeStamp();
+        });
+
+    todoItemsInParts.push(late);
+
+    // todoItems that have deadline today
+    const today = betweenDays(todoItems, 0, 1);
+    todoItemsInParts.push(today);
+
+    // todoItems that have deadline tomorrow
+    const tomorrow = betweenDays(todoItems, 1, 2);
+    todoItemsInParts.push(tomorrow);
+
+    // todoItems that have deadline next week (but after tomorrow)
+    const nextWeek = betweenDays(todoItems, 2, 7);
+    todoItemsInParts.push(nextWeek);
+
+    // todoItems that have deadline in next two week
+    const nextTwoWeeks = betweenDays(todoItems, 7, 14);
+    todoItemsInParts.push(nextTwoWeeks);
+
+    // todoItems that have deadline next month
+    const nextMonth = betweenDays(todoItems, 14, 31);
+    todoItemsInParts.push(nextMonth);
+
+    // todo items that have deadline in a long time (over a month)
+    const longTime =
+      todoItems
+        .filter(todoItem => {
+          return parseDate(todoItem.date) >= (getTodayTimeStamp() + day * 31);
+        });
+    todoItemsInParts.push(longTime);
+
+    return todoItemsInParts;
+  }
+
+  // yyyy-mm-dd to milliseconds since 1970
+  function parseDate(date){
+    const parts = date.split('-');
+
+    // in a date object months is zero-based
+    parts[1] = parts[1] - 1;
+
+    const dateObj = new Date(parts[0], parts[1], parts[2]);
+
+    return dateObj.getTime();
+  }
+
+  // gets timestamp (milliseconds since 1970) for today morning clock 0:00
+  function getTodayTimeStamp() {
+    const now = new Date();
+
+    const todayMorning = new Date(
+                                now.getFullYear(),
+                                now.getMonth(),
+                                now.getDate(),
+                              );
+
+    return todayMorning.getTime();
+  }
+
   const todoItems = props.todoItems
   const setTodoItems = props.setTodoItems;
 
@@ -70,22 +179,104 @@ function ItemListWindow(props) {
 
   const setShowWindow = props.setShowWindow;
 
+  const todoItemsInParts = divideIntoPartsByTime(todoItems.concat());
+
   return (
     <div>
-      <Sort todoItems={todoItems} setTodoItems={setTodoItems} />
       <div
         className="todo-list"
-        style={{height: `${window.innerHeight - 180}px`}}
+        style={{height: `${window.innerHeight - 131}px`}}
       >
+        <div>late</div>
         {
-          todoItems.map(todoItem => <TodoItem key={todoItem.id}
-                                      todoItem={todoItem}
-                                      setShowWindow={setShowWindow}
-                                      setEditedTodoItem={setEditedTodoItem}
-                                      setDeletedTodoItem={setDeletedTodoItem}
-                                      todoItems={todoItems}
-                                      setTodoItems={setTodoItems}
-                                    />)
+          // before today
+          todoItemsInParts[0].map(
+            todoItem => <TodoItem key={todoItem.id}
+                          todoItem={todoItem}
+                          setShowWindow={setShowWindow}
+                          setEditedTodoItem={setEditedTodoItem}
+                          setDeletedTodoItem={setDeletedTodoItem}
+                          todoItems={todoItems}
+                          setTodoItems={setTodoItems}
+                        />)
+        }
+        <div>today</div>
+        {
+          // today
+          todoItemsInParts[1].map(
+            todoItem => <TodoItem key={todoItem.id}
+                          todoItem={todoItem}
+                          setShowWindow={setShowWindow}
+                          setEditedTodoItem={setEditedTodoItem}
+                          setDeletedTodoItem={setDeletedTodoItem}
+                          todoItems={todoItems}
+                          setTodoItems={setTodoItems}
+                        />)
+        }
+        <div>tomorrow</div>
+        {
+          // tomorrow
+          todoItemsInParts[2].map(
+            todoItem => <TodoItem key={todoItem.id}
+                          todoItem={todoItem}
+                          setShowWindow={setShowWindow}
+                          setEditedTodoItem={setEditedTodoItem}
+                          setDeletedTodoItem={setDeletedTodoItem}
+                          todoItems={todoItems}
+                          setTodoItems={setTodoItems}
+                        />)
+        }
+        <div>a week</div>
+        {
+          // a week
+          todoItemsInParts[3].map(
+            todoItem => <TodoItem key={todoItem.id}
+                          todoItem={todoItem}
+                          setShowWindow={setShowWindow}
+                          setEditedTodoItem={setEditedTodoItem}
+                          setDeletedTodoItem={setDeletedTodoItem}
+                          todoItems={todoItems}
+                          setTodoItems={setTodoItems}
+                        />)
+        }
+        <div>2 weeks</div>
+        {
+          // 2 weeks
+          todoItemsInParts[4].map(
+            todoItem => <TodoItem key={todoItem.id}
+                          todoItem={todoItem}
+                          setShowWindow={setShowWindow}
+                          setEditedTodoItem={setEditedTodoItem}
+                          setDeletedTodoItem={setDeletedTodoItem}
+                          todoItems={todoItems}
+                          setTodoItems={setTodoItems}
+                        />)
+        }
+        <div>a month</div>
+        {
+          // in a month
+          todoItemsInParts[5].map(
+            todoItem => <TodoItem key={todoItem.id}
+                          todoItem={todoItem}
+                          setShowWindow={setShowWindow}
+                          setEditedTodoItem={setEditedTodoItem}
+                          setDeletedTodoItem={setDeletedTodoItem}
+                          todoItems={todoItems}
+                          setTodoItems={setTodoItems}
+                        />)
+        }
+        <div>later</div>
+        {
+          // after a month
+          todoItemsInParts[6].map(
+            todoItem => <TodoItem key={todoItem.id}
+                          todoItem={todoItem}
+                          setShowWindow={setShowWindow}
+                          setEditedTodoItem={setEditedTodoItem}
+                          setDeletedTodoItem={setDeletedTodoItem}
+                          todoItems={todoItems}
+                          setTodoItems={setTodoItems}
+                        />)
         }
       </div>
       <div className="add-item-button" onClick={() => {
@@ -151,13 +342,12 @@ function AddItemWindow(props) {
   function dateToString(dateObj) {
     const dateParts = [
                         dateObj.getFullYear(),
-                        dateObj.getMonth(),
+                        dateObj.getMonth() + 1, // date object month is 0 based
                         dateObj.getDate(),
                       ];
 
     if (dateParts[1].toString().length === 1) {
       dateParts[1] = '0' + dateParts[1];
-      console.log(dateParts);
     }
 
     if (dateParts[2].toString().length === 1) {

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import './Todolist.css';
 import './TodoItemForm.css';
 import './TodoItemDelete.css';
-import TodoItem from './TodoItem.js';
+import TodoListPart from './TodoListPart.js';
+import TodoItem from './TodoItem';
 
 function TodoList() {
   function sortByRemainingTime(todoItems) {
@@ -179,7 +180,13 @@ function ItemListWindow(props) {
 
   const setShowWindow = props.setShowWindow;
 
-  const todoItemsInParts = divideIntoPartsByTime(todoItems.concat());
+  // divides uncompleted todoitems into parts
+  const todoItemsInParts = divideIntoPartsByTime(
+    todoItems.filter(todoItem => (todoItem.isCompleted === false))
+  );
+
+  // filters completed todoitems
+  const completedTodoItems = todoItems.filter(todoItem => (todoItem.isCompleted === true));
 
   return (
     <div>
@@ -187,97 +194,78 @@ function ItemListWindow(props) {
         className="todo-list"
         style={{height: `${window.innerHeight - 131}px`}}
       >
-        <div>late</div>
-        {
-          // before today
-          todoItemsInParts[0].map(
-            todoItem => <TodoItem key={todoItem.id}
-                          todoItem={todoItem}
-                          setShowWindow={setShowWindow}
-                          setEditedTodoItem={setEditedTodoItem}
-                          setDeletedTodoItem={setDeletedTodoItem}
-                          todoItems={todoItems}
-                          setTodoItems={setTodoItems}
-                        />)
-        }
-        <div>today</div>
-        {
-          // today
-          todoItemsInParts[1].map(
-            todoItem => <TodoItem key={todoItem.id}
-                          todoItem={todoItem}
-                          setShowWindow={setShowWindow}
-                          setEditedTodoItem={setEditedTodoItem}
-                          setDeletedTodoItem={setDeletedTodoItem}
-                          todoItems={todoItems}
-                          setTodoItems={setTodoItems}
-                        />)
-        }
-        <div>tomorrow</div>
-        {
-          // tomorrow
-          todoItemsInParts[2].map(
-            todoItem => <TodoItem key={todoItem.id}
-                          todoItem={todoItem}
-                          setShowWindow={setShowWindow}
-                          setEditedTodoItem={setEditedTodoItem}
-                          setDeletedTodoItem={setDeletedTodoItem}
-                          todoItems={todoItems}
-                          setTodoItems={setTodoItems}
-                        />)
-        }
-        <div>a week</div>
-        {
-          // a week
-          todoItemsInParts[3].map(
-            todoItem => <TodoItem key={todoItem.id}
-                          todoItem={todoItem}
-                          setShowWindow={setShowWindow}
-                          setEditedTodoItem={setEditedTodoItem}
-                          setDeletedTodoItem={setDeletedTodoItem}
-                          todoItems={todoItems}
-                          setTodoItems={setTodoItems}
-                        />)
-        }
-        <div>2 weeks</div>
-        {
-          // 2 weeks
-          todoItemsInParts[4].map(
-            todoItem => <TodoItem key={todoItem.id}
-                          todoItem={todoItem}
-                          setShowWindow={setShowWindow}
-                          setEditedTodoItem={setEditedTodoItem}
-                          setDeletedTodoItem={setDeletedTodoItem}
-                          todoItems={todoItems}
-                          setTodoItems={setTodoItems}
-                        />)
-        }
-        <div>a month</div>
-        {
-          // in a month
-          todoItemsInParts[5].map(
-            todoItem => <TodoItem key={todoItem.id}
-                          todoItem={todoItem}
-                          setShowWindow={setShowWindow}
-                          setEditedTodoItem={setEditedTodoItem}
-                          setDeletedTodoItem={setDeletedTodoItem}
-                          todoItems={todoItems}
-                          setTodoItems={setTodoItems}
-                        />)
-        }
-        <div>later</div>
-        {
-          // after a month
-          todoItemsInParts[6].map(
-            todoItem => <TodoItem key={todoItem.id}
-                          todoItem={todoItem}
-                          setShowWindow={setShowWindow}
-                          setEditedTodoItem={setEditedTodoItem}
-                          setDeletedTodoItem={setDeletedTodoItem}
-                          todoItems={todoItems}
-                          setTodoItems={setTodoItems}
-                        />)
-        }
+        <TodoListPart
+          text="late"
+          todoItemPart={todoItemsInParts[0]}
+          setShowWindow={setShowWindow}
+          setEditedTodoItem={setEditedTodoItem}
+          setDeletedTodoItem={setDeletedTodoItem}
+          todoItems={todoItems}
+          setTodoItems={setTodoItems}
+        />
+        <TodoListPart
+          text="today"
+          todoItemPart={todoItemsInParts[1]}
+          setShowWindow={setShowWindow}
+          setEditedTodoItem={setEditedTodoItem}
+          setDeletedTodoItem={setDeletedTodoItem}
+          todoItems={todoItems}
+          setTodoItems={setTodoItems}
+        />
+        <TodoListPart
+          text="tomorrow"
+          todoItemPart={todoItemsInParts[2]}
+          setShowWindow={setShowWindow}
+          setEditedTodoItem={setEditedTodoItem}
+          setDeletedTodoItem={setDeletedTodoItem}
+          todoItems={todoItems}
+          setTodoItems={setTodoItems}
+        />
+        <TodoListPart
+          text="a weeks"
+          todoItemPart={todoItemsInParts[3]}
+          setShowWindow={setShowWindow}
+          setEditedTodoItem={setEditedTodoItem}
+          setDeletedTodoItem={setDeletedTodoItem}
+          todoItems={todoItems}
+          setTodoItems={setTodoItems}
+        />
+        <TodoListPart
+          text="2 weeks"
+          todoItemPart={todoItemsInParts[4]}
+          setShowWindow={setShowWindow}
+          setEditedTodoItem={setEditedTodoItem}
+          setDeletedTodoItem={setDeletedTodoItem}
+          todoItems={todoItems}
+          setTodoItems={setTodoItems}
+        />
+        <TodoListPart
+          text="a month"
+          todoItemPart={todoItemsInParts[5]}
+          setShowWindow={setShowWindow}
+          setEditedTodoItem={setEditedTodoItem}
+          setDeletedTodoItem={setDeletedTodoItem}
+          todoItems={todoItems}
+          setTodoItems={setTodoItems}
+        />
+        <TodoListPart
+          text="later"
+          todoItemPart={todoItemsInParts[6]}
+          setShowWindow={setShowWindow}
+          setEditedTodoItem={setEditedTodoItem}
+          setDeletedTodoItem={setDeletedTodoItem}
+          todoItems={todoItems}
+          setTodoItems={setTodoItems}
+        />
+        <TodoListPart
+          text="completed"
+          todoItemPart={completedTodoItems}
+          setShowWindow={setShowWindow}
+          setEditedTodoItem={setEditedTodoItem}
+          setDeletedTodoItem={setDeletedTodoItem}
+          todoItems={todoItems}
+          setTodoItems={setTodoItems}
+        />
       </div>
       <div className="add-item-button" onClick={() => {
           setShowWindow({addItemWindow: true})

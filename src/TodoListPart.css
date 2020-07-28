@@ -1,0 +1,16 @@
+.todo-list-part-button {
+  box-sizing: border-box;
+  width: 300px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+
+  background-color: gray;
+  border: 1px solid black;
+  color: #f7f7f7;
+}
+
+.todo-list-part-button:hover {
+  background-color: rgb(173, 173, 173);
+  cursor: pointer;
+}

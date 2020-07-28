@@ -15,3 +15,12 @@
   background-color: rgb(173, 173, 173);
   cursor: pointer;
 }
+
+.todo-list-part-button-text {
+  flex-basis: 0;
+  flex-grow: 1;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

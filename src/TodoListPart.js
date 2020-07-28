@@ -26,7 +26,8 @@ function TodoListPart(props) {
       <div className="todo-list-part-button"
         onClick={() => setShowThisPart(false)}
       >
-        <div>{text}</div><div>hide</div>
+        <div className="todo-list-part-button-text">{text}</div>
+        <div className="todo-list-part-button-text">hide</div>
       </div>
       {
           todoItemPart.map(

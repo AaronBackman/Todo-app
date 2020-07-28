@@ -4,9 +4,9 @@ import TodoItem from './TodoItem.js';
 
 function TodoListPart(props) {
   const {
-          text, todoItemPart, setShowWindow, setEditedTodoItem,
-          setDeletedTodoItem, todoItems, setTodoItems
-        } = props;
+    text, todoItemPart, setShowWindow, setEditedTodoItem,
+    setDeletedTodoItem, todoItems, setTodoItems
+  } = props;
 
   // is this part of todo list shown or not
   const [showThisPart, setShowThisPart] = useState(true);

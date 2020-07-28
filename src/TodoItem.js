@@ -44,13 +44,10 @@ function TodoItem(props) {
 
   let todoItem = props.todoItem;
 
-  const todoItems = props.todoItems;
-  const setTodoItems = props.setTodoItems;
-
-  const setShowWindow = props.setShowWindow;
-
-  const setEditedTodoItem = props.setEditedTodoItem;
-  const setDeletedTodoItem = props.setDeletedTodoItem;
+  const {
+    todoItems, setTodoItems, setShowWindow,
+    setEditedTodoItem, setDeletedTodoItem
+  } = props;
 
   // if true, shows options to edit or delete the item
   const [showItemMenu, setShowItemMenu] = useState(false);

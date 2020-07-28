@@ -1,6 +1,7 @@
 .todo-list-part-button {
   box-sizing: border-box;
   width: 300px;
+  min-height: 35px;
   display: flex;
   justify-content: space-around;
   align-items: center;

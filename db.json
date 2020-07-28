@@ -1,124 +1,24 @@
 {
   "todoItems": [
     {
-      "title": "eeeerr",
-      "date": "2020-06-07",
-      "priority": {
-        "name": "low",
-        "value": 1
-      },
-      "isCompleted": false,
-      "id": 6
-    },
-    {
-      "title": "duck food",
-      "date": "2020-07-22",
+      "title": "playing chess",
+      "date": "2020-07-20",
       "priority": {
         "name": "medium",
         "value": 2
       },
       "isCompleted": false,
-      "id": 8
+      "id": 1
     },
     {
-      "title": "fefefe",
-      "date": "2020-07-23",
-      "priority": {
-        "name": "medium",
-        "value": 2
-      },
-      "isCompleted": true,
-      "id": 9
-    },
-    {
-      "title": "wdafefwgws",
-      "date": "2020-07-27",
-      "priority": {
-        "name": "low",
-        "value": 1
-      },
-      "isCompleted": false,
-      "id": 13
-    },
-    {
-      "title": "ddsdafa",
-      "date": "2020-07-31",
-      "priority": {
-        "name": "high",
-        "value": 3
-      },
-      "isCompleted": false,
-      "id": 14
-    },
-    {
-      "title": "werewr",
-      "date": "2020-07-02",
-      "priority": {
-        "name": "high",
-        "value": 3
-      },
-      "isCompleted": true,
-      "id": 12
-    },
-    {
-      "title": "dwdf",
-      "date": "2020-07-22",
+      "title": "eating",
+      "date": "2020-07-28",
       "priority": {
         "name": "low",
         "value": 1
       },
       "isCompleted": false,
       "id": 2
-    },
-    {
-      "title": "leaningttdd",
-      "date": "2020-09-25",
-      "priority": {
-        "name": "low",
-        "value": 1
-      },
-      "isCompleted": false,
-      "id": 3
-    },
-    {
-      "title": "fffffffff",
-      "date": "2020-07-01",
-      "priority": {
-        "name": "low",
-        "value": 1
-      },
-      "isCompleted": false,
-      "id": 11
-    },
-    {
-      "title": "going",
-      "date": "2020-07-25",
-      "priority": {
-        "name": "low",
-        "value": 1
-      },
-      "isCompleted": false,
-      "id": 1
-    },
-    {
-      "title": "rrr",
-      "date": "2020-07-24",
-      "priority": {
-        "name": "medium",
-        "value": 2
-      },
-      "isCompleted": true,
-      "id": 4
-    },
-    {
-      "title": "laterrr",
-      "date": "2021-07-24",
-      "priority": {
-        "name": "high",
-        "value": 3
-      },
-      "isCompleted": false,
-      "id": 5
     }
   ]
 }

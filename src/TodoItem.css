@@ -32,9 +32,6 @@
   background-color: rgb(152, 253, 0);
 }
 
-
-
-
 .todo-item-completed.high-priority {
   background-color: #ff86a3;
 }
@@ -64,17 +61,25 @@
 .todo-item-completed > .complete-button {
   width: 2em;
   height: 2em;
-  background-color: gray;
+  background-color: #68e642;
   border: 1px solid black;
   margin: 5px;
+}
+
+.todo-item-completed > .complete-button:hover {
+  background-color: #f7f7f7;
 }
 
 .todo-item-uncompleted > .complete-button {
   width: 2em;
   height: 2em;
   background-color: #f7f7f7;
-  border: 1px solid gray;
+  border: 1px solid black;
   margin: 5px;
+}
+
+.todo-item-uncompleted > .complete-button:hover {
+  background-color: #a6ff8b;
 }
 
 .todo-item-text {

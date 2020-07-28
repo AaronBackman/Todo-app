@@ -3,7 +3,6 @@ import './Todolist.css';
 import './TodoItemForm.css';
 import './TodoItemDelete.css';
 import TodoListPart from './TodoListPart.js';
-import TodoItem from './TodoItem';
 
 function TodoList() {
   function sortByRemainingTime(todoItems) {
@@ -171,14 +170,10 @@ function ItemListWindow(props) {
     return todayMorning.getTime();
   }
 
-  const todoItems = props.todoItems
-  const setTodoItems = props.setTodoItems;
-
-  const setEditedTodoItem = props.setEditedTodoItem;
-
-  const setDeletedTodoItem = props.setDeletedTodoItem;
-
-  const setShowWindow = props.setShowWindow;
+  const {
+    todoItems, setTodoItems, setEditedTodoItem,
+    setDeletedTodoItem, setShowWindow
+  } = props;
 
   // divides uncompleted todoitems into parts
   const todoItemsInParts = divideIntoPartsByTime(
@@ -222,7 +217,7 @@ function ItemListWindow(props) {
           setTodoItems={setTodoItems}
         />
         <TodoListPart
-          text="a weeks"
+          text="a week"
           todoItemPart={todoItemsInParts[3]}
           setShowWindow={setShowWindow}
           setEditedTodoItem={setEditedTodoItem}
@@ -300,6 +295,7 @@ function AddItemWindow(props) {
       });
   }
 
+  // return first unused index (id) in todoItems
   function firstFreeIndex(todoItems) {
     function checkIfNoMatch(item, value) {
       if (item.id === value) return false;
@@ -345,10 +341,7 @@ function AddItemWindow(props) {
     return dateParts.join('-');
   }
 
-  const todoItems = props.todoItems;
-  const setTodoItems = props.setTodoItems;
-
-  const setShowWindow = props.setShowWindow;
+  const {todoItems, setTodoItems, setShowWindow} = props;
 
   const [newTodoItem, setNewTodoItem] = useState(
     {
@@ -419,13 +412,10 @@ function EditItemWindow(props) {
       });
   }
 
-  const setShowWindow = props.setShowWindow;
-
-  const todoItems = props.todoItems;
-  const setTodoItems = props.setTodoItems;
-
-  const editedTodoItem = props.editedTodoItem;
-  const setEditedTodoItem = props.setEditedTodoItem;
+  const {
+    setShowWindow, todoItems, setTodoItems,
+    editedTodoItem, setEditedTodoItem
+  } = props;
 
   return (
     <ItemForm
@@ -436,7 +426,7 @@ function EditItemWindow(props) {
   );
 }
 
-// makes a form used to edit existing or new todo items
+// makes a form used to edit an existing todoitem or add a new todoitem
 function ItemForm(props) {
   function copyTodoItem(todoItem) {
     return {
@@ -451,13 +441,7 @@ function ItemForm(props) {
     };
   }
 
-  const handleSubmit = props.handleSubmit;
-
-  // todo item to be edited or added (stateful value)
-  const todoItem = props.todoItem;
-  const setTodoItem = props.setTodoItem;
-
-  const setShowWindow = props.setShowWindow;
+  const {handleSubmit, todoItem, setTodoItem, setShowWindow} = props;
 
   return (
     <div className="todo-item-form-container">
@@ -548,13 +532,10 @@ function DeleteItemWindow(props) {
       });
   }
 
-  const deletedTodoItem = props.deletedTodoItem;
-  const setDeletedTodoItem = props.setDeletedTodoItem;
-
-  const todoItems = props.todoItems;
-  const setTodoItems = props.setTodoItems;
-
-  const setShowWindow = props.setShowWindow;
+  const {
+    deletedTodoItem, setDeletedTodoItem,
+    todoItems, setTodoItems, setShowWindow
+  } = props;
 
   return (
     <div className="delete-container">

@@ -3,14 +3,10 @@ import './ItemMenu.css';
 
 // shows a menu to edit or delete todo items
 function ItemMenu(props) {
-  const setShowItemMenu = props.setShowItemMenu;
-  const setShowWindow = props.setShowWindow;
-
-  const setEditedTodoItem = props.setEditedTodoItem;
-  const setDeletedTodoItem = props.setDeletedTodoItem;
-
-  const todoItem = props.todoItem;
-
+  const {
+    setShowItemMenu, setShowWindow,
+    setEditedTodoItem, setDeletedTodoItem, todoItem
+  } = props;
 
   // give position to the item menu based on the selected todo item
   const todoItemDiv = document.getElementById(todoItem.id);

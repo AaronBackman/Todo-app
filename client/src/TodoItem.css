@@ -90,3 +90,11 @@
   justify-content: center;
   align-items: center;
 }
+
+.check-box-completed {
+  font-size: 35px;
+}
+
+.check-box-uncompleted {
+  font-size: 35px;
+}

@@ -4,6 +4,8 @@ import './TodoItemForm.css';
 import './TodoItemDelete.css';
 import TodoListPart from './TodoListPart.js';
 
+const path = 'http://localhost:9000';
+
 function TodoList() {
   function sortByRemainingTime(todoItems) {
     const newTodoItems = todoItems.concat();
@@ -36,7 +38,7 @@ function TodoList() {
   const [deletedTodoItem, setDeletedTodoItem] = useState({});
 
   useEffect(() => {
-    fetch('http://localhost:3001/todoitems')
+    fetch(path + '/todoitems')
       .then((response => response.json()))
       .then(data => setTodoItems(sortByRemainingTime(data)));
   }, []);
@@ -281,7 +283,7 @@ function AddItemWindow(props) {
 
     setTodoItems(todoItems.concat(newTodoItem));
 
-    fetch('http://localhost:3001/todoitems',
+    fetch(path + '/todoitems',
     {
       headers: {
         "content-type": "application/json",
@@ -398,7 +400,7 @@ function EditItemWindow(props) {
       return todoItem;
     })));
 
-    fetch(`http://localhost:3001/todoitems/${editId}`,
+    fetch(`${path}/todoitems/${editId}`,
     {
       headers: {
         "content-type": "application/json",
@@ -522,7 +524,7 @@ function DeleteItemWindow(props) {
       return true;
     })));
 
-    fetch(`http://localhost:3001/todoitems/${deleteId}`,
+    fetch(`${path}/todoitems/${deleteId}`,
     {
       method: "DELETE",
     })

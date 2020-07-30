@@ -42,6 +42,42 @@ function TodoItem(props) {
     return dateParts.join('/');
   }
 
+  // function used when todo items is completed/ uncompleted by clicking
+  function handleCompletetion(e) {
+    e.stopPropagation();
+    
+    const newTodoItems = todoItems.map(item => {
+      if (item.id === todoItem.id) {
+        const todoItemCopy = copyTodoItem(todoItem);
+        // toggles the value of isCompleted
+        todoItemCopy.isCompleted = !todoItemCopy.isCompleted;
+
+        return todoItemCopy;
+      }
+
+      return item;
+    })
+
+    // set todoItem to match the updated value
+    todoItem = newTodoItems.find(item => {
+      if (item.id === todoItem.id) return true;
+
+      return false;
+    });
+
+    fetch(`http://localhost:3001/todoitems/${todoItem.id}`,
+      {
+        headers: {
+          "content-type": "application/json",
+        },
+        method: "PUT",
+        body: JSON.stringify(todoItem),
+      })
+        .then(() => {
+          setTodoItems(newTodoItems);
+        });
+  }
+
   let todoItem = props.todoItem;
 
   const {
@@ -71,45 +107,15 @@ function TodoItem(props) {
     >
       <div className="todo-item-text">{todoItem.title}</div>
       <div className="todo-item-text">{formatDate(todoItem.date)}</div>
-      <div
-        className="complete-button"
-        onClick={e => {
-          e.stopPropagation();
-          
-          const newTodoItems = todoItems.map(item => {
-            if (item.id === todoItem.id) {
-              const todoItemCopy = copyTodoItem(todoItem);
-              // toggles the value of isCompleted
-              todoItemCopy.isCompleted = !todoItemCopy.isCompleted;
 
-              return todoItemCopy;
-            }
+      {todoItem.isCompleted ?
+        <i className="material-icons check-box-completed"
+        onClick={handleCompletetion}
+        >check_box</i>:
+        <i className="material-icons check-box-uncompleted"
+        onClick={handleCompletetion}
+      >check_box_outline_blank</i>}
 
-            return item;
-          })
-
-          // set todoItem to match the updated value
-          todoItem = newTodoItems.find(item => {
-            if (item.id === todoItem.id) return true;
-
-            return false;
-          });
-
-          fetch(`http://localhost:3001/todoitems/${todoItem.id}`,
-            {
-              headers: {
-                "content-type": "application/json",
-              },
-              method: "PUT",
-              body: JSON.stringify(todoItem),
-            })
-              .then(() => {
-                setTodoItems(newTodoItems);
-              });
-        }}
-      >
-
-      </div>
       {showItemMenu ?
       <ItemMenu
         setShowItemMenu={setShowItemMenu}

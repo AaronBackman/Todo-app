@@ -1,4 +1,4 @@
-require('dotenv').config;
+require('dotenv').config();
 
 exports.rootPassword = process.env.ROOT_PASSWORD || 'default';
 exports.username = process.env.DB_USERNAME || 'default';

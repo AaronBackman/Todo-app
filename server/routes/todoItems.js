@@ -9,17 +9,65 @@ const mysqlRootPassword = config.rootPassword;
 const mysqlUsername = config.username;
 const mysqlUserPassword = config.userPassword;
 
+// call to initialize the todoitem database
+function initDb() {
+  const con = mysql.createConnection({
+    host: 'localhost',
+    user: 'root',
+    password: mysqlRootPassword,
+  });
+   
+  con.connect((err) => {
+    if (err) throw err;
+  
+    const createDb = `CREATE DATABASE IF NOT EXISTS ${databaseName}`;
+  
+    con.query(createDb, (err, result) => {
+      if (err) throw err;
+    });
+  
+    con.end(err => {
+      if (err) throw err;
+    })
+  });
+}
+
+const databaseName = 'todoDb';
+
 const con = mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: mysqlRootPassword,
+  database: databaseName
 });
-
-console.log(config);
 
 con.connect((err) => {
   if (err) throw err;
+
+  const tableName = 'todoitem';
+
+  const createTable = `CREATE TABLE IF NOT EXISTS ${tableName} (
+                       title VARCHAR(255), date DATE,
+                       priorityname VARCHAR(255),
+                       priorityvalue INT(1),
+                       iscompleted BOOLEAN,
+                       id INT(255) PRIMARY KEY
+                       )`;
+
+  con.query(createTable, (err, result) => {
+    if (err) throw err;
+  });
+
+  const sqlQuery = `SELECT * FROM ${tableName}`;
+
+  con.query(sqlQuery, (err, result, fields) => {
+    if (err) throw err;
+
+    console.log(result);
+  });
 });
+
+
 
 const todoItems = [
   {
@@ -64,7 +112,6 @@ const todoItems = [
   }
 ];
 
-/* GET home page. */
 router.get('/', (req, res, next) => {
   res.json(todoItems);
 });

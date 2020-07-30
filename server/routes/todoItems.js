@@ -9,24 +9,26 @@ const mysqlRootPassword = config.rootPassword;
 const mysqlUsername = config.username;
 const mysqlUserPassword = config.userPassword;
 
+initDb();
+
 // call to initialize the todoitem database
 function initDb() {
-  const con = mysql.createConnection({
+  const connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: mysqlRootPassword,
   });
    
-  con.connect((err) => {
+  connection.connect((err) => {
     if (err) throw err;
   
     const createDb = `CREATE DATABASE IF NOT EXISTS ${databaseName}`;
   
-    con.query(createDb, (err, result) => {
+    connection.query(createDb, (err, result) => {
       if (err) throw err;
     });
   
-    con.end(err => {
+    connection.end(err => {
       if (err) throw err;
     })
   });
@@ -34,86 +36,104 @@ function initDb() {
 
 const databaseName = 'todoDb';
 
-const con = mysql.createConnection({
+const getConnection = () => mysql.createConnection({
   host: 'localhost',
   user: 'root',
   password: mysqlRootPassword,
   database: databaseName
 });
 
-con.connect((err) => {
-  if (err) throw err;
+const tableName = 'todoitem';
 
-  const tableName = 'todoitem';
+// gets todoitems from the database and sends back in json format
+router.get('/', (request, response, next) => {
+  function toClientFormat(todoItems) {
+    if (!todoItems[0]) {
+      return [{}];
+    }
 
-  const createTable = `CREATE TABLE IF NOT EXISTS ${tableName} (
-                       title VARCHAR(255), date DATE,
-                       priorityname VARCHAR(255),
-                       priorityvalue INT(1),
-                       iscompleted BOOLEAN,
-                       id INT(255) PRIMARY KEY
-                       )`;
+    const todoItem = todoItems[0];
 
-  con.query(createTable, (err, result) => {
+    return todoItems.map((todoItem) => ({
+      title: todoItem.title,
+      date: todoItem.date,
+      priority: {
+        name: todoItem.priorityname,
+        value: todoItem.priorityvalue,
+      },
+      isCompleted: todoItem.iscompleted === 1 ? true: false,
+      id: todoItem.id,
+    }));
+  }
+
+  const connection = getConnection();
+
+  connection.connect(err => {
     if (err) throw err;
-  });
+  
+    const createTable = `CREATE TABLE IF NOT EXISTS ${tableName} (
+                         title VARCHAR(255),
+                         date VARCHAR(255),
+                         priorityname VARCHAR(255),
+                         priorityvalue INT(1),
+                         iscompleted INT(1),
+                         id INT(255) PRIMARY KEY
+                         )`;
+  
+    connection.query(createTable, (err, result) => {
+      if (err) throw err;
+    });
+  
+    const sqlQuery = `SELECT * FROM ${tableName}`;
+  
+    connection.query(sqlQuery, (err, result, fields) => {
+      if (err) throw err;
+  
+      response.json({todoItems: toClientFormat(result)});
+    });
 
-  const sqlQuery = `SELECT * FROM ${tableName}`;
-
-  con.query(sqlQuery, (err, result, fields) => {
-    if (err) throw err;
-
-    console.log(result);
+    connection.end();
   });
 });
 
-
-
-const todoItems = [
-  {
-    "title": "playing chess",
-    "date": "2020-07-20",
-    "priority": {
-      "name": "medium",
-      "value": 2
-    },
-    "isCompleted": true,
-    "id": 1
-  },
-  {
-    "title": "eating",
-    "date": "2020-07-28",
-    "priority": {
-      "name": "low",
-      "value": 1
-    },
-    "isCompleted": false,
-    "id": 2
-  },
-  {
-    "title": "googling",
-    "date": "2020-07-31",
-    "priority": {
-      "name": "low",
-      "value": 1
-    },
-    "isCompleted": false,
-    "id": 3
-  },
-  {
-    "title": "making breakfast",
-    "date": "2020-07-02",
-    "priority": {
-      "name": "low",
-      "value": 1
-    },
-    "isCompleted": false,
-    "id": 4
+// gets a todoitem in json format and saves it into the database
+router.post('/', (request, response, next) => {
+  // changed to not include nested objects
+  function toServerFormat(todoItem) {
+    return [
+      todoItem.title,
+      todoItem.date,
+      todoItem.priority.name,
+      todoItem.priority.value,
+      todoItem.isCompleted ? 1: 0,
+      todoItem.id,
+  ];
   }
-];
 
-router.get('/', (req, res, next) => {
-  res.json(todoItems);
+  const connection = getConnection();
+
+  connection.connect(err => {
+    if (err) throw err;
+
+    const todoItem = request.body;
+
+    const sqlQuery = `INSERT INTO ${tableName} 
+                        (
+                          title, date, priorityname, priorityvalue, iscompleted, id
+                        )
+                        VALUES
+                        (
+                          ?, ?, ?, ?, ?, ?
+                        )`;
+
+    const formatedTodoItem = toServerFormat(todoItem);
+
+    connection.query(sqlQuery, formatedTodoItem, err => {
+      if (err) throw err;
+    });
+  });
+
+  response.end();
 });
 
 module.exports = router;

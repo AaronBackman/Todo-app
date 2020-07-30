@@ -40,7 +40,7 @@ function TodoList() {
   useEffect(() => {
     fetch(path + '/todoitems')
       .then((response => response.json()))
-      .then(data => setTodoItems(sortByRemainingTime(data)));
+      .then(data => setTodoItems(sortByRemainingTime(data.todoItems)));
   }, []);
 
   if (showWindow.itemListWindow) {

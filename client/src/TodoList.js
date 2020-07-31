@@ -199,6 +199,7 @@ function ItemListWindow(props) {
           setDeletedTodoItem={setDeletedTodoItem}
           todoItems={todoItems}
           setTodoItems={setTodoItems}
+          path={path}
         />
         <TodoListPart
           text="today"
@@ -208,6 +209,7 @@ function ItemListWindow(props) {
           setDeletedTodoItem={setDeletedTodoItem}
           todoItems={todoItems}
           setTodoItems={setTodoItems}
+          path={path}
         />
         <TodoListPart
           text="tomorrow"
@@ -217,6 +219,7 @@ function ItemListWindow(props) {
           setDeletedTodoItem={setDeletedTodoItem}
           todoItems={todoItems}
           setTodoItems={setTodoItems}
+          path={path}
         />
         <TodoListPart
           text="a week"
@@ -226,6 +229,7 @@ function ItemListWindow(props) {
           setDeletedTodoItem={setDeletedTodoItem}
           todoItems={todoItems}
           setTodoItems={setTodoItems}
+          path={path}
         />
         <TodoListPart
           text="2 weeks"
@@ -235,6 +239,7 @@ function ItemListWindow(props) {
           setDeletedTodoItem={setDeletedTodoItem}
           todoItems={todoItems}
           setTodoItems={setTodoItems}
+          path={path}
         />
         <TodoListPart
           text="a month"
@@ -244,6 +249,7 @@ function ItemListWindow(props) {
           setDeletedTodoItem={setDeletedTodoItem}
           todoItems={todoItems}
           setTodoItems={setTodoItems}
+          path={path}
         />
         <TodoListPart
           text="later"
@@ -253,6 +259,7 @@ function ItemListWindow(props) {
           setDeletedTodoItem={setDeletedTodoItem}
           todoItems={todoItems}
           setTodoItems={setTodoItems}
+          path={path}
         />
         <TodoListPart
           text="completed"
@@ -262,6 +269,7 @@ function ItemListWindow(props) {
           setDeletedTodoItem={setDeletedTodoItem}
           todoItems={todoItems}
           setTodoItems={setTodoItems}
+          path={path}
         />
       </div>
       <div className="add-item-button" onClick={() => {

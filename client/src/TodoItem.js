@@ -65,7 +65,7 @@ function TodoItem(props) {
       return false;
     });
 
-    fetch(`http://localhost:3001/todoitems/${todoItem.id}`,
+    fetch(`${path}/todoitems/${todoItem.id}`,
       {
         headers: {
           "content-type": "application/json",
@@ -82,7 +82,7 @@ function TodoItem(props) {
 
   const {
     todoItems, setTodoItems, setShowWindow,
-    setEditedTodoItem, setDeletedTodoItem
+    setEditedTodoItem, setDeletedTodoItem, path
   } = props;
 
   // if true, shows options to edit or delete the item

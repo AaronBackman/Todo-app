@@ -9,8 +9,6 @@ const mysqlRootPassword = config.rootPassword;
 const mysqlUsername = config.username;
 const mysqlUserPassword = config.userPassword;
 
-initDb();
-
 // call to initialize the todoitem database
 function initDb() {
   const connection = mysql.createConnection({
@@ -43,29 +41,41 @@ const getConnection = () => mysql.createConnection({
   database: databaseName
 });
 
+// changed to not include nested objects and from object to an array
+function toServerFormat(todoItem) {
+  return [
+    todoItem.title,
+    todoItem.date,
+    todoItem.priority.name,
+    todoItem.priority.value,
+    todoItem.isCompleted ? 1: 0,
+    todoItem.id,
+  ];
+}
+
+function toClientFormat(todoItems) {
+  if (!todoItems[0]) {
+    return [{}];
+  }
+
+  const todoItem = todoItems[0];
+
+  return todoItems.map((todoItem) => ({
+    title: todoItem.title,
+    date: todoItem.date,
+    priority: {
+      name: todoItem.priorityname,
+      value: todoItem.priorityvalue,
+    },
+    isCompleted: todoItem.iscompleted === 1 ? true: false,
+    id: todoItem.id,
+  }));
+}
+
 const tableName = 'todoitem';
 
 // gets todoitems from the database and sends back in json format
 router.get('/', (request, response, next) => {
-  function toClientFormat(todoItems) {
-    if (!todoItems[0]) {
-      return [{}];
-    }
-
-    const todoItem = todoItems[0];
-
-    return todoItems.map((todoItem) => ({
-      title: todoItem.title,
-      date: todoItem.date,
-      priority: {
-        name: todoItem.priorityname,
-        value: todoItem.priorityvalue,
-      },
-      isCompleted: todoItem.iscompleted === 1 ? true: false,
-      id: todoItem.id,
-    }));
-  }
-
   const connection = getConnection();
 
   connection.connect(err => {
@@ -98,24 +108,14 @@ router.get('/', (request, response, next) => {
 
 // gets a todoitem in json format and saves it into the database
 router.post('/', (request, response, next) => {
-  // changed to not include nested objects
-  function toServerFormat(todoItem) {
-    return [
-      todoItem.title,
-      todoItem.date,
-      todoItem.priority.name,
-      todoItem.priority.value,
-      todoItem.isCompleted ? 1: 0,
-      todoItem.id,
-  ];
-  }
-
   const connection = getConnection();
 
   connection.connect(err => {
     if (err) throw err;
 
     const todoItem = request.body;
+
+    const formatedTodoItem = toServerFormat(todoItem);
 
     const sqlQuery = `INSERT INTO ${tableName} 
                         (
@@ -126,10 +126,37 @@ router.post('/', (request, response, next) => {
                           ?, ?, ?, ?, ?, ?
                         )`;
 
-    const formatedTodoItem = toServerFormat(todoItem);
 
     connection.query(sqlQuery, formatedTodoItem, err => {
       if (err) throw err;
+    });
+  });
+
+  response.end();
+});
+
+// gets a todoitem in json and updates the matching todoitem in the database
+router.put('/:id', (request, response) => {
+  const connection = getConnection();
+
+  connection.connect(err => {
+    if (err) throw err;
+
+    const todoItem = request.body;
+
+    // should technically be the same as todoItem.id
+    const id =request.params.id;
+
+    const sqlQuery = `UPDATE ${tableName}
+                      SET title = '${todoItem.title}',
+                        date = '${todoItem.date}',
+                        priorityname = '${todoItem.priority.name}',
+                        priorityvalue = '${todoItem.priority.value}',
+                        iscompleted = '${todoItem.isCompleted ? 1: 0}'
+                      WHERE id = '${id}'`;
+
+    connection.query(sqlQuery, (err, result) => {
+
     });
   });
 

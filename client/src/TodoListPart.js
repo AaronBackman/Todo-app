@@ -5,7 +5,7 @@ import TodoItem from './TodoItem.js';
 function TodoListPart(props) {
   const {
     text, todoItemPart, setShowWindow, setEditedTodoItem,
-    setDeletedTodoItem, todoItems, setTodoItems
+    setDeletedTodoItem, todoItems, setTodoItems, path
   } = props;
 
   // is this part of todo list shown or not
@@ -38,6 +38,7 @@ function TodoListPart(props) {
                           setDeletedTodoItem={setDeletedTodoItem}
                           todoItems={todoItems}
                           setTodoItems={setTodoItems}
+                          path={path}
                         />)
         }
     </>

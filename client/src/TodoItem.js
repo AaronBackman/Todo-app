@@ -99,14 +99,17 @@ function TodoItem(props) {
           'todo-item-uncompleted'}`
         }
 
-
       onClick={() => {
-        const toggledShowItemMenu = !showItemMenu
-        setShowItemMenu(toggledShowItemMenu)
+        const toggledShowItemMenu = !showItemMenu;
+        setShowItemMenu(toggledShowItemMenu);
       }}
     >
-      <div className="todo-item-text">{todoItem.title}</div>
-      <div className="todo-item-text">{formatDate(todoItem.date)}</div>
+      <div className="todo-item-text">
+        <div>{todoItem.title}</div>
+      </div>
+      <div className="todo-item-text">
+        <div>{formatDate(todoItem.date)}</div>
+      </div>
 
       {todoItem.isCompleted ?
         <i className="material-icons check-box-completed"

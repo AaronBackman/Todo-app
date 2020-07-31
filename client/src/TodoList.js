@@ -186,9 +186,10 @@ function ItemListWindow(props) {
   const completedTodoItems = todoItems.filter(todoItem => (todoItem.isCompleted === true));
 
   return (
-    <div>
-      <div
-        className="todo-list"
+    <div className="todo-list-container"
+      onMouseDown={e => (e.preventDefault())}
+    >
+      <div className="todo-list"
         style={{height: `${window.innerHeight - 131}px`}}
       >
         <TodoListPart

@@ -16,7 +16,12 @@ function TodoListPart(props) {
       <div className="todo-list-part-button"
         onClick={() => setShowThisPart(true)}
       >
-        <div>{text}</div><div>show</div>
+        <div className="todo-list-part-button-text">
+          <div>{text}</div>
+        </div>
+        <div className="todo-list-part-button-text">
+          <div>show</div>
+        </div>
       </div>
     );
   }
@@ -25,9 +30,14 @@ function TodoListPart(props) {
     <>
       <div className="todo-list-part-button"
         onClick={() => setShowThisPart(false)}
+        onMouseDown={e => (e.preventDefault())}
       >
-        <div className="todo-list-part-button-text">{text}</div>
-        <div className="todo-list-part-button-text">hide</div>
+        <div className="todo-list-part-button-text">
+          <div>{text}</div>
+        </div>
+        <div className="todo-list-part-button-text">
+          <div>hide</div>
+        </div>
       </div>
       {
           todoItemPart.map(

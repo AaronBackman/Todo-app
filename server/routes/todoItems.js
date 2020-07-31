@@ -156,7 +156,26 @@ router.put('/:id', (request, response) => {
                       WHERE id = '${id}'`;
 
     connection.query(sqlQuery, (err, result) => {
+      if (err) throw err;
+    });
+  });
 
+  response.end();
+});
+
+// gets a todoitem in json and updates the matching todoitem in the database
+router.delete('/:id', (request, response) => {
+  const connection = getConnection();
+
+  connection.connect(err => {
+    if (err) throw err;
+
+    const id =request.params.id;
+
+    const sqlQuery = `DELETE FROM ${tableName} WHERE id = ${id}`;
+
+    connection.query(sqlQuery, (err, result) => {
+      if (err) throw err;
     });
   });
 

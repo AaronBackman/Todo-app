@@ -1,5 +1,7 @@
 import React from 'react';
 
+import TodoListPart from './TodoListPart.js';
+
 function ItemListWindow(props) {
   // divides into parts containing different todoItems
   //(eg. before today, today, in a week, in a month...)
@@ -89,7 +91,7 @@ function ItemListWindow(props) {
 
   const {
     todoItems, setTodoItems, setEditedTodoItem,
-    setDeletedTodoItem, setShowWindow
+    setDeletedTodoItem, setShowWindow, path
   } = props;
 
   // divides uncompleted todoitems into parts

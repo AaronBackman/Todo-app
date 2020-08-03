@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import './TodoListPart.css';
-import TodoItem from 'components/TodoItem.js';
+
+import TodoItem from './TodoItem.js';
+
+import '../styles/TodoListPart.css';
 
 function TodoListPart(props) {
   const {

@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
-import 'components/Todolist.css';
-import 'components/TodoItemForm.css';
-import 'components/TodoItemDelete.css';
 
-const path = 'http://localhost:9000';
+import ItemListWindow from './ItemListWindow.js';
+import AddItemWindow from './AddItemWindow.js';
+import EditItemWindow from './EditItemWindow.js';
+import DeleteItemWindow from './DeleteItemWindow.js';
+
+import '../styles/TodoList.css';
 
 function TodoList() {
   function sortByRemainingTime(todoItems) {
@@ -36,6 +38,8 @@ function TodoList() {
   const [editedTodoItem, setEditedTodoItem] = useState({});
   const [deletedTodoItem, setDeletedTodoItem] = useState({});
 
+  const path = 'http://localhost:9000';
+
   useEffect(() => {
     fetch(path + '/todoitems')
       .then((response => response.json()))
@@ -49,6 +53,7 @@ function TodoList() {
         setEditedTodoItem={setEditedTodoItem}
         setDeletedTodoItem={setDeletedTodoItem}
         setShowWindow={setShowWindow}
+        path={path}
       />
     );
   }
@@ -58,6 +63,7 @@ function TodoList() {
       <AddItemWindow
         setShowWindow={setShowWindow}
         todoItems={todoItems} setTodoItems={setTodoItems}
+        path={path}
       />
     );
   }
@@ -68,6 +74,7 @@ function TodoList() {
         setShowWindow={setShowWindow}
         todoItems={todoItems} setTodoItems={setTodoItems}
         editedTodoItem={editedTodoItem} setEditedTodoItem={setEditedTodoItem}
+        path={path}
       />
     );
   }
@@ -79,6 +86,7 @@ function TodoList() {
         setDeletedTodoItem={setDeletedTodoItem}
         todoItems={todoItems} setTodoItems={setTodoItems}
         setShowWindow={setShowWindow}
+        path={path}
       />
     )
   }

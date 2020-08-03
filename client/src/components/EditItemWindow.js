@@ -1,5 +1,7 @@
 import React from 'react';
 
+import TodoItemForm from './TodoItemForm.js';
+
 // makes window that allows user to edit old todo items
 function EditItemWindow(props) {
   // PUTs todoItem made from user input to the server (replaces old version)
@@ -31,11 +33,11 @@ function EditItemWindow(props) {
 
   const {
     setShowWindow, todoItems, setTodoItems,
-    editedTodoItem, setEditedTodoItem
+    editedTodoItem, setEditedTodoItem, path
   } = props;
 
   return (
-    <ItemForm
+    <TodoItemForm
       handleSubmit={updateItem}
       todoItem={editedTodoItem} setTodoItem={setEditedTodoItem}
       setShowWindow={setShowWindow}

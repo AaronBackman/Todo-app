@@ -1,4 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
+
+import TodoItemForm from './TodoItemForm.js';
 
 // makes window that allows user to add new todo items
 function AddItemWindow(props) {
@@ -68,7 +70,7 @@ function AddItemWindow(props) {
     return dateParts.join('-');
   }
 
-  const {todoItems, setTodoItems, setShowWindow} = props;
+  const {todoItems, setTodoItems, setShowWindow, path} = props;
 
   const [newTodoItem, setNewTodoItem] = useState(
     {
@@ -100,7 +102,7 @@ function AddItemWindow(props) {
   }
 
   return (
-    <ItemForm
+    <TodoItemForm
       handleSubmit={addItem}
       todoItem={newTodoItem} setTodoItem={setNewTodoItem}
       setShowWindow={setShowWindow}

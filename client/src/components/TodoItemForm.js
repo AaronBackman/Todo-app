@@ -1,7 +1,9 @@
 import React from 'react';
 
+import '../styles/TodoItemForm.css';
+
 // makes a form used to edit an existing todoitem or add a new todoitem
-function ItemForm(props) {
+function TodoItemForm(props) {
   function copyTodoItem(todoItem) {
     return {
       title: todoItem.title,
@@ -83,4 +85,4 @@ function ItemForm(props) {
   );
 }
 
-export default ItemForm;
+export default TodoItemForm;

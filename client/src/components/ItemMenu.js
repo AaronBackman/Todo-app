@@ -1,5 +1,6 @@
 import React from 'react';
-import './ItemMenu.css';
+
+import '../styles/ItemMenu.css';
 
 // shows a menu to edit or delete todo items
 function ItemMenu(props) {

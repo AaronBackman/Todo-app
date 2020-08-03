@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import './TodoItem.css';
+
 import ItemMenu from './ItemMenu.js';
+
+import '../styles/TodoItem.css';
 
 // component to show a single todo item in a list of todo items
 function TodoItem(props) {

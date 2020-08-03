@@ -1,5 +1,7 @@
 import React from 'react';
 
+import '../styles/DeleteItemWindow.css';
+
 // used to ask confirmation to delete todo items and delete them
 function DeleteItemWindow(props) {
   function deleteItem() {
@@ -24,7 +26,7 @@ function DeleteItemWindow(props) {
 
   const {
     deletedTodoItem, setDeletedTodoItem,
-    todoItems, setTodoItems, setShowWindow
+    todoItems, setTodoItems, setShowWindow, path
   } = props;
 
   return (

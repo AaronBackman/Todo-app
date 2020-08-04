@@ -7,7 +7,7 @@ import DeleteItemWindow from './DeleteItemWindow.js';
 
 import '../styles/TodoList.css';
 
-function TodoList() {
+function TodoList(props) {
   function sortByRemainingTime(todoItems) {
     const newTodoItems = todoItems.concat();
 
@@ -38,13 +38,34 @@ function TodoList() {
   const [editedTodoItem, setEditedTodoItem] = useState({});
   const [deletedTodoItem, setDeletedTodoItem] = useState({});
 
+  // done only once
+  useEffect(() => {
+    const defaultTodoItem = [];
+    defaultTodoItem.default = true;
+
+    setTodoItems(defaultTodoItem);
+  }, []);
+
   const path = 'http://localhost:9000';
 
-  useEffect(() => {
-    fetch(path + '/todoitems')
+  const credentials = props.credentials;
+  const username = credentials.username;
+  const password = credentials.password;
+
+  // credentials have been given correctly => give user's todoitems
+  if (!credentials.default && todoItems.default) {
+    fetch(path + `/todoitems/${username}/${password}`)
       .then((response => response.json()))
       .then(data => setTodoItems(sortByRemainingTime(data.todoItems)));
-  }, []);
+  }
+  // user has logged out while some todoitems are shown
+  // => don't show them anymore
+  if (credentials.default && todoItems.length !== 0) {
+    const defaultTodoItem = [];
+    defaultTodoItem.default = true;
+
+    setTodoItems(defaultTodoItem);
+  }
 
   if (showWindow.itemListWindow) {
     return (
@@ -54,6 +75,7 @@ function TodoList() {
         setDeletedTodoItem={setDeletedTodoItem}
         setShowWindow={setShowWindow}
         path={path}
+        credentials={credentials}
       />
     );
   }
@@ -64,6 +86,7 @@ function TodoList() {
         setShowWindow={setShowWindow}
         todoItems={todoItems} setTodoItems={setTodoItems}
         path={path}
+        credentials={credentials}
       />
     );
   }
@@ -75,6 +98,7 @@ function TodoList() {
         todoItems={todoItems} setTodoItems={setTodoItems}
         editedTodoItem={editedTodoItem} setEditedTodoItem={setEditedTodoItem}
         path={path}
+        credentials={credentials}
       />
     );
   }
@@ -87,6 +111,7 @@ function TodoList() {
         todoItems={todoItems} setTodoItems={setTodoItems}
         setShowWindow={setShowWindow}
         path={path}
+        credentials={credentials}
       />
     )
   }

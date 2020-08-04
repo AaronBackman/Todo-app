@@ -47,6 +47,9 @@ function TodoItem(props) {
   // function used when todo items is completed/ uncompleted by clicking
   function handleCompletetion(e) {
     e.stopPropagation();
+
+    const username = credentials.username;
+    const password = credentials.password;
     
     const newTodoItems = todoItems.map(item => {
       if (item.id === todoItem.id) {
@@ -67,7 +70,7 @@ function TodoItem(props) {
       return false;
     });
 
-    fetch(`${path}/todoitems/${todoItem.id}`,
+    fetch(`${path}/todoitems/${username}/${password}/${todoItem.id}`,
       {
         headers: {
           "content-type": "application/json",
@@ -84,7 +87,8 @@ function TodoItem(props) {
 
   const {
     todoItems, setTodoItems, setShowWindow,
-    setEditedTodoItem, setDeletedTodoItem, path
+    setEditedTodoItem, setDeletedTodoItem,
+    path, credentials
   } = props;
 
   // if true, shows options to edit or delete the item

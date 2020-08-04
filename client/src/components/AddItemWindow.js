@@ -8,9 +8,12 @@ function AddItemWindow(props) {
   function addItem(e) {
     e.preventDefault();
 
+    const username = credentials.username;
+    const password = credentials.password;
+
     setTodoItems(todoItems.concat(newTodoItem));
 
-    fetch(path + '/todoitems',
+    fetch(path + `/todoitems/${username}/${password}`,
     {
       headers: {
         "content-type": "application/json",
@@ -70,7 +73,7 @@ function AddItemWindow(props) {
     return dateParts.join('-');
   }
 
-  const {todoItems, setTodoItems, setShowWindow, path} = props;
+  const {todoItems, setTodoItems, setShowWindow, path, credentials} = props;
 
   const [newTodoItem, setNewTodoItem] = useState(
     {

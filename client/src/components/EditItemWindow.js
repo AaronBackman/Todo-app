@@ -9,6 +9,8 @@ function EditItemWindow(props) {
     e.preventDefault();
     
     const editId = editedTodoItem.id
+    const username = credentials.username;
+    const password = credentials.password;
 
     // change the edited todo item to the edited values, other items unchanged
     setTodoItems(todoItems.map((todoItem => {
@@ -17,7 +19,7 @@ function EditItemWindow(props) {
       return todoItem;
     })));
 
-    fetch(`${path}/todoitems/${editId}`,
+    fetch(`${path}/todoitems/${username}/${password}/${editId}`,
     {
       headers: {
         "content-type": "application/json",
@@ -33,7 +35,8 @@ function EditItemWindow(props) {
 
   const {
     setShowWindow, todoItems, setTodoItems,
-    editedTodoItem, setEditedTodoItem, path
+    editedTodoItem, setEditedTodoItem,
+    path, credentials
   } = props;
 
   return (

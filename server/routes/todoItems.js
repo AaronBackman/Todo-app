@@ -27,8 +27,43 @@ function initDb() {
   });
 }
 
+// creates the tables used by the database
+function initTables() {
+  getConnection((error, connection) => {
+    if (error) console.log('get connection error', error);
+
+    // creates table for todoitems
+    const createTodoTable = `CREATE TABLE IF NOT EXISTS ${todoTableName} (
+      title VARCHAR(255),
+      date VARCHAR(255),
+      priorityname VARCHAR(255),
+      priorityvalue INT(1),
+      iscompleted INT(1),
+      id INT(255),
+      username VARCHAR(255),
+      PRIMARY KEY (id, username)
+      )`;
+
+    connection.query(createTodoTable, (error, result) => {
+      if (error) console.log('create todotable error', error);
+    });
+
+    // creates table for username-password combinations
+    const createUserTable = `CREATE TABLE IF NOT EXISTS ${userTableName} (
+      username VARCHAR(255) PRIMARY KEY,
+      password VARCHAR(255)
+      )`;
+
+    connection.query(createUserTable, (error, result) => {
+      if (error) console.log('create user table error', error);
+    });
+
+    connection.release();
+  });
+}
+
 // changed to not include nested objects and from object to an array
-function toServerFormat(todoItem) {
+function toServerFormat(todoItem, username) {
   return [
     todoItem.title,
     todoItem.date,
@@ -36,6 +71,7 @@ function toServerFormat(todoItem) {
     todoItem.priority.value,
     todoItem.isCompleted ? 1: 0,
     todoItem.id,
+    username,
   ];
 }
 
@@ -58,27 +94,19 @@ function toClientFormat(todoItems) {
 
 const mysqlRootPassword = config.rootPassword;
 const databaseName = config.databaseName;
-const tableName = 'todoitem';
+const todoTableName = 'todoTable';
+const userTableName = 'userTable';
 
 // gets todoitems from the database and sends back in json format
-router.get('/', (request, response, next) => {
+router.get('/:username/:password', authenticate, (request, response) => {
   getConnection((error, connection) => {
     if (error) console.log('get connection error', error);
 
-    const createTable = `CREATE TABLE IF NOT EXISTS ${tableName} (
-      title VARCHAR(255),
-      date VARCHAR(255),
-      priorityname VARCHAR(255),
-      priorityvalue INT(1),
-      iscompleted INT(1),
-      id INT(255) PRIMARY KEY
-      )`;
+    const params = request.params;
+    const username = params.username;
+    const password = params.password;
 
-    connection.query(createTable, (err, result) => {
-      if (error) console.log('get query error', error);
-    });
-
-    const sqlQuery = `SELECT * FROM ${tableName}`;
+    const sqlQuery = `SELECT * FROM ${todoTableName} WHERE username = '${username}'`;
 
     connection.query(sqlQuery, (error, result, fields) => {
       if (error) console.log('get query error', error);
@@ -91,19 +119,23 @@ router.get('/', (request, response, next) => {
 });
 
 // gets a todoitem in json  and saves it into the database
-router.post('/', (request, response, next) => {
+router.post('/:username/:password', authenticate, (request, response) => {
   getConnection((error, connection) => {
     if (error) console.log('post connection error', error);
 
+    const params = request.params;
+    const username = params.username;
+    const password = params.password;
+
     const todoItem = request.body;
-    const formatedTodoItem = toServerFormat(todoItem);
-    const sqlQuery = `INSERT INTO ${tableName} 
+    const formatedTodoItem = toServerFormat(todoItem, username);
+    const sqlQuery = `INSERT INTO ${todoTableName} 
                         (
-                          title, date, priorityname, priorityvalue, iscompleted, id
+                          title, date, priorityname, priorityvalue, iscompleted, id, username
                         )
                         VALUES
                         (
-                          ?, ?, ?, ?, ?, ?
+                          ?, ?, ?, ?, ?, ?, ?
                         )`;
 
 
@@ -118,22 +150,26 @@ router.post('/', (request, response, next) => {
 });
 
 // gets a todoitem in json and updates the matching todoitem in the database
-router.put('/:id', (request, response) => {
+router.put('/:username/:password/:id', authenticate, (request, response) => {
   getConnection((error, connection) => {
     if (error) console.log('put connection error', error);
+
+    const params = request.params;
+    const username = params.username;
+    const password = params.password;
 
     const todoItem = request.body;
 
     // should technically be the same as todoItem.id
     const id =request.params.id;
 
-    const sqlQuery = `UPDATE ${tableName}
+    const sqlQuery = `UPDATE ${todoTableName}
                       SET title = '${todoItem.title}',
                         date = '${todoItem.date}',
                         priorityname = '${todoItem.priority.name}',
                         priorityvalue = '${todoItem.priority.value}',
                         iscompleted = '${todoItem.isCompleted ? 1: 0}'
-                      WHERE id = '${id}'`;
+                      WHERE id = '${id}' AND username = '${username}'`;
 
     connection.query(sqlQuery, (error, result) => {
       if (error) console.log('put query error', error);
@@ -146,12 +182,18 @@ router.put('/:id', (request, response) => {
 });
 
 // gets a todoitem in json and updates the matching todoitem in the database
-router.delete('/:id', (request, response) => {
+router.delete('/:username/:password/:id', authenticate, (request, response) => {
   getConnection((error, connection) => {
     if (error) console.log('delete connection error', error);
 
-    const id =request.params.id;
-    const sqlQuery = `DELETE FROM ${tableName} WHERE id = ${id}`;
+    const params = request.params;
+    const username = params.username;
+    const password = params.password;
+    const id = params.id;
+
+    const sqlQuery = `DELETE FROM ${todoTableName}
+                      WHERE id = '${id}'
+                        AND USERNAME = '${username}'`;
 
     connection.query(sqlQuery, (error, result) => {
       if (error) console.log('delete query error', error);
@@ -162,5 +204,34 @@ router.delete('/:id', (request, response) => {
 
   response.end();
 });
+
+// middleware to check the request credentials
+function authenticate(request, response, next) {
+  getConnection((error, connection) => {
+    if (error) console.log('authentication connection error', error);
+
+    const params = request.params;
+    const username = params.username;
+    const password = params.password;
+
+    const sql = `SELECT * FROM ${userTableName}
+                 WHERE username = '${username}' AND password = '${password}'`;
+
+    connection.query(sql, (error, result) => {
+      if (error) console.log('authentication query error', error);
+
+      if (result.length === 0) {
+        console.log(401);
+        response.status(401).send();
+        // stops going to the next middleware
+        next('route');
+      } else {
+        next();
+      }
+    });
+
+    console.log('release');
+  });
+}
 
 module.exports = router;

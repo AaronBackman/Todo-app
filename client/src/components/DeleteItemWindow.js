@@ -6,6 +6,8 @@ import '../styles/DeleteItemWindow.css';
 function DeleteItemWindow(props) {
   function deleteItem() {
     const deleteId = deletedTodoItem.id
+    const username = credentials.username;
+    const password = credentials.password;
 
     // filter out the todo item that will be deleted
     setTodoItems(todoItems.filter((todoItem => {
@@ -14,7 +16,7 @@ function DeleteItemWindow(props) {
       return true;
     })));
 
-    fetch(`${path}/todoitems/${deleteId}`,
+    fetch(`${path}/todoitems/${username}/${password}/${deleteId}`,
     {
       method: "DELETE",
     })
@@ -26,7 +28,8 @@ function DeleteItemWindow(props) {
 
   const {
     deletedTodoItem, setDeletedTodoItem,
-    todoItems, setTodoItems, setShowWindow, path
+    todoItems, setTodoItems, setShowWindow,
+    path, credentials
   } = props;
 
   return (

@@ -7,7 +7,7 @@ import '../styles/TodoListPart.css';
 function TodoListPart(props) {
   const {
     text, todoItemPart, setShowWindow, setEditedTodoItem,
-    setDeletedTodoItem, todoItems, setTodoItems, path
+    setDeletedTodoItem, todoItems, setTodoItems, path, credentials
   } = props;
 
   // is this part of todo list shown or not
@@ -41,18 +41,21 @@ function TodoListPart(props) {
           <div>hide</div>
         </div>
       </div>
-      {
-          todoItemPart.map(
-            todoItem => <TodoItem key={todoItem.id}
-                          todoItem={todoItem}
-                          setShowWindow={setShowWindow}
-                          setEditedTodoItem={setEditedTodoItem}
-                          setDeletedTodoItem={setDeletedTodoItem}
-                          todoItems={todoItems}
-                          setTodoItems={setTodoItems}
-                          path={path}
-                        />)
-        }
+      <div className="items-container">
+        {
+            todoItemPart.map(
+              todoItem => <TodoItem key={todoItem.id}
+                            todoItem={todoItem}
+                            setShowWindow={setShowWindow}
+                            setEditedTodoItem={setEditedTodoItem}
+                            setDeletedTodoItem={setDeletedTodoItem}
+                            todoItems={todoItems}
+                            setTodoItems={setTodoItems}
+                            path={path}
+                            credentials={credentials}
+                          />)
+          }
+        </div>
     </>
   );
 }

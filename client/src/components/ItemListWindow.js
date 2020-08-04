@@ -91,7 +91,8 @@ function ItemListWindow(props) {
 
   const {
     todoItems, setTodoItems, setEditedTodoItem,
-    setDeletedTodoItem, setShowWindow, path
+    setDeletedTodoItem, setShowWindow,
+    path, credentials
   } = props;
 
   // divides uncompleted todoitems into parts
@@ -118,6 +119,7 @@ function ItemListWindow(props) {
           todoItems={todoItems}
           setTodoItems={setTodoItems}
           path={path}
+          credentials={credentials}
         />
         <TodoListPart
           text="today"
@@ -128,6 +130,7 @@ function ItemListWindow(props) {
           todoItems={todoItems}
           setTodoItems={setTodoItems}
           path={path}
+          credentials={credentials}
         />
         <TodoListPart
           text="tomorrow"
@@ -138,6 +141,7 @@ function ItemListWindow(props) {
           todoItems={todoItems}
           setTodoItems={setTodoItems}
           path={path}
+          credentials={credentials}
         />
         <TodoListPart
           text="a week"
@@ -148,6 +152,7 @@ function ItemListWindow(props) {
           todoItems={todoItems}
           setTodoItems={setTodoItems}
           path={path}
+          credentials={credentials}
         />
         <TodoListPart
           text="2 weeks"
@@ -158,6 +163,7 @@ function ItemListWindow(props) {
           todoItems={todoItems}
           setTodoItems={setTodoItems}
           path={path}
+          credentials={credentials}
         />
         <TodoListPart
           text="a month"
@@ -168,6 +174,7 @@ function ItemListWindow(props) {
           todoItems={todoItems}
           setTodoItems={setTodoItems}
           path={path}
+          credentials={credentials}
         />
         <TodoListPart
           text="later"
@@ -178,6 +185,7 @@ function ItemListWindow(props) {
           todoItems={todoItems}
           setTodoItems={setTodoItems}
           path={path}
+          credentials={credentials}
         />
         <TodoListPart
           text="completed"
@@ -188,6 +196,7 @@ function ItemListWindow(props) {
           todoItems={todoItems}
           setTodoItems={setTodoItems}
           path={path}
+          credentials={credentials}
         />
       </div>
       <div className="add-item-button" onClick={() => {

@@ -1,0 +1,22 @@
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  background-color: #6afc3e;
+  width: 60px;
+  padding: 5px 10px;
+  margin: 10px;
+  border-radius: 15px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background-color: #a6ff8b;
+}
+
+.log-in-buttons-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

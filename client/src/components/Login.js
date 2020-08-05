@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
-import LoginForm from './LoginForm.js';
+import LogInForm from './LogInForm.js';
 
-function Login(props) {
+function LogIn(props) {
   // checks with the server if the credentials are correct
   function handleCredentialsCheck(e) {
     e.preventDefault();
@@ -41,47 +41,43 @@ function Login(props) {
       });
   }
   
-  const {credentials, setCredentials} = props;
-
-  // if true shows from to create a new user
-  const [showCreateNewUser, setShowCreateNewUser] = useState(false);
+  const {
+          credentials, setCredentials, showLogIn, setShowLogIn
+        } = props;
 
   const [newCredentials, setNewCredentials]
     = useState({username: '', password: ''});
 
-  if (!credentials.default) {
+  // doesn't show the form when user is already logged in
+  if (!credentials.default || showLogIn.none) {
     return (
-      <div onClick={() => setCredentials({default: true})}>
-        log out
-      </div>
+      <></>
     );
   }
 
-  // form to create a new user
-  if (showCreateNewUser) {
+  // form to create a new user (sign-in)
+  if (showLogIn.signIn) {
     return (
-      <>
-        <LoginForm
-          handleSubmit={handleCredentialsAdd}
-          newCredentials={newCredentials}
-          setNewCredentials={setNewCredentials}
-        />
-        <div onClick={() => setShowCreateNewUser(false)}>log in</div>
-      </>
+      <LogInForm
+        handleSubmit={handleCredentialsAdd}
+        newCredentials={newCredentials}
+        setNewCredentials={setNewCredentials}
+        text={'sign in'}
+      />
     );
   }
 
   // form to log in
-  return (
-    <>
-      <LoginForm
+  if (showLogIn.logIn) {
+    return (
+      <LogInForm
         handleSubmit={handleCredentialsCheck}
         newCredentials={newCredentials}
         setNewCredentials={setNewCredentials}
+        text={'log in'}
       />
-      <div onClick={() => setShowCreateNewUser(true)}>sign in</div>
-    </>
-  );
+    );
+  }
 }
 
-export default Login;
+export default LogIn;

@@ -1,18 +1,29 @@
 import React, {useState} from 'react';
 
+import LogInButtons from './LogInButtons';
 import TodoList from './TodoList.js';
-import Login from './Login.js';
+import LogIn from './LogIn.js';
 
 import '../styles/App.css';
 
 function App() {
   const [credentials, setCredentials] = useState({default: true});
+    // none for nothing logIn for existing users
+    // and signIn for registering new users
+    const [showLogIn, setShowLogIn] = useState({none: true});
 
   return (
     <div className="container">
       <div className="header">
-        <Login credentials={credentials} setCredentials={setCredentials}/>
+        <LogInButtons
+          credentials={credentials} setCredentials={setCredentials}
+          setShowLogIn={setShowLogIn}
+        />
       </div>
+      <LogIn
+        credentials={credentials} setCredentials={setCredentials}
+        showLogIn={showLogIn} setShowLogIn={setShowLogIn}
+      />
       <div className="content">
         <TodoList credentials={credentials} />
       </div>

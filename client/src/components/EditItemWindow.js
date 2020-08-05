@@ -19,6 +19,9 @@ function EditItemWindow(props) {
       return todoItem;
     })));
 
+    setShowWindow({itemListWindow: true});
+    setEditedTodoItem({});
+
     fetch(`${path}/todoitems/${username}/${password}/${editId}`,
     {
       headers: {
@@ -26,11 +29,7 @@ function EditItemWindow(props) {
       },
       method: "PUT",
       body: JSON.stringify(editedTodoItem),
-    })
-      .then((response) => {
-        setShowWindow({itemListWindow: true});
-        setEditedTodoItem({});
-      });
+    });
   }
 
   const {

@@ -12,6 +12,8 @@ function AddItemWindow(props) {
     const password = credentials.password;
 
     setTodoItems(todoItems.concat(newTodoItem));
+    setNewTodoItem({});
+    setShowWindow({itemListWindow: true});
 
     fetch(path + `/todoitems/${username}/${password}`,
     {
@@ -20,11 +22,7 @@ function AddItemWindow(props) {
       },
       method: "POST",
       body: JSON.stringify(newTodoItem),
-    })
-      .then((response) => {
-        setNewTodoItem({});
-        setShowWindow({itemListWindow: true});
-      });
+    });
   }
 
   // return first unused index (id) in todoItems

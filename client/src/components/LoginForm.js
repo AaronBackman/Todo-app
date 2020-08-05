@@ -1,11 +1,12 @@
 import React from 'react';
+import "../styles/LogInForm.css";
 
-function LoginForm(props) {
-  const {handleSubmit, newCredentials, setNewCredentials} = props;
+function LogInForm(props) {
+  const {handleSubmit, newCredentials, setNewCredentials, text} = props;
 
   return (
-    <div>
-      <form onSubmit={handleSubmit}>
+    <form className="log-in-form">
+      <div className="input-container">
         <label htmlFor="username">username</label>
         <input
           type="text" name="username"
@@ -16,7 +17,9 @@ function LoginForm(props) {
                 {username: username, password: newCredentials.password}
               );
             }}/>
+      </div>
 
+      <div className="input-container">
         <label htmlFor="password">password</label>
         <input
           type="password" name="password"
@@ -27,11 +30,13 @@ function LoginForm(props) {
                 {username: newCredentials.username, password: password}
               );
             }}/>
+      </div>
 
-        <input type="submit"/>
-      </form>
-    </div>
+      <div onClick={handleSubmit} className="submit-button-container">
+        <div>{text}</div>
+      </div>
+    </form>
   );
 }
 
-export default LoginForm;
+export default LogInForm;

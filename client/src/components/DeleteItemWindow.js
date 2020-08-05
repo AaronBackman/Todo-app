@@ -16,14 +16,13 @@ function DeleteItemWindow(props) {
       return true;
     })));
 
+    setShowWindow({itemListWindow: true});
+    setDeletedTodoItem({});
+
     fetch(`${path}/todoitems/${username}/${password}/${deleteId}`,
     {
       method: "DELETE",
-    })
-      .then((response) => {
-        setShowWindow({itemListWindow: true});
-        setDeletedTodoItem({});
-      });
+    });
   }
 
   const {

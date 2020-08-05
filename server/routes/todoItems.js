@@ -161,7 +161,7 @@ router.put('/:username/:password/:id', authenticate, (request, response) => {
     const todoItem = request.body;
 
     // should technically be the same as todoItem.id
-    const id =request.params.id;
+    const id = params.id;
 
     const sqlQuery = `UPDATE ${todoTableName}
                       SET title = '${todoItem.title}',
@@ -221,7 +221,6 @@ function authenticate(request, response, next) {
       if (error) console.log('authentication query error', error);
 
       if (result.length === 0) {
-        console.log(401);
         response.status(401).send();
         // stops going to the next middleware
         next('route');
@@ -229,8 +228,8 @@ function authenticate(request, response, next) {
         next();
       }
     });
-
-    console.log('release');
+    
+    connection.release();
   });
 }
 

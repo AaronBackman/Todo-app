@@ -1,0 +1,38 @@
+.log-in-form {
+  position: absolute;
+  right: 0;
+  top: 50px;
+
+  width: 180px;
+  height: 180px;
+  background-color: #f7f7f7;
+  border: 10px solid black;
+
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.input-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.submit-button-container {
+  background-color: #6afc3e;
+  padding: 5px 10px;
+  border-radius: 15px;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.submit-button-container:hover {
+  background-color: #a6ff8b;
+}

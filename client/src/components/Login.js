@@ -55,14 +55,14 @@ function LogIn(props) {
     );
   }
 
-  // form to create a new user (sign-in)
-  if (showLogIn.signIn) {
+  // form to create a new user (sign-up)
+  if (showLogIn.signUp) {
     return (
       <LogInForm
         handleSubmit={handleCredentialsAdd}
         newCredentials={newCredentials}
         setNewCredentials={setNewCredentials}
-        text={'sign in'}
+        text={'sign up'}
       />
     );
   }

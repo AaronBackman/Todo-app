@@ -24,9 +24,9 @@ function LogInButtons(props) {
       </div>
 
       <div className="button"
-        onClick={() => setShowLogIn({signIn: true})}
+        onClick={() => setShowLogIn({signUp: true})}
       >
-        <div>sign in</div>
+        <div>sign up</div>
       </div>
     </div>
   );

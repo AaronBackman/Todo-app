@@ -5,7 +5,7 @@ const databaseName = config.databaseName;
 
 const mysql = require('mysql');
 const pool = mysql.createPool({
-  connectionLimit: 10,
+  connectionLimit: 3,
   host: 'localhost',
   user: 'root',
   password: mysqlRootPassword,

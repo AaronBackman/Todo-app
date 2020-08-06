@@ -5,8 +5,6 @@ import AddItemWindow from './AddItemWindow.js';
 import EditItemWindow from './EditItemWindow.js';
 import DeleteItemWindow from './DeleteItemWindow.js';
 
-import '../styles/TodoList.css';
-
 function TodoList(props) {
   function sortByRemainingTime(todoItems) {
     const newTodoItems = todoItems.concat();

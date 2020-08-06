@@ -28,6 +28,19 @@ function TodoListPart(props) {
     );
   }
 
+  if (todoItemPart.length === 0) {
+    return (
+      <div className="todo-list-part-button">
+        <div className="todo-list-part-button-text">
+          <div>{text}</div>
+        </div>
+        <div className="todo-list-part-button-text">
+          <div></div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="todo-list-part-button"

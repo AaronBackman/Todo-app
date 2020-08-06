@@ -25,3 +25,10 @@
 .menu-button:hover {
   background-color: rgb(255, 0, 25);
 }
+
+@media screen and (max-width: 560px) {
+  .menu-button {
+    max-width: 40px;
+    white-space: normal;
+  }
+}

@@ -98,3 +98,15 @@
 .check-box-uncompleted {
   font-size: 35px;
 }
+
+@media screen and (max-width: 560px) {
+  .todo-list-item {
+    width: 200px;
+  }
+}
+
+@media screen and (max-width: 340px) {
+  .todo-list-item {
+    width: 150px;
+  }
+}

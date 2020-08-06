@@ -30,3 +30,15 @@
   border: solid black 1px;
   padding: 5px 5px 10px 5px;
 }
+
+@media screen and (max-width: 560px) {
+  .todo-list-part-button {
+    width: 212px;
+  }
+}
+
+@media screen and (max-width: 340px) {
+  .todo-list-part-button {
+    width: 162px;
+  }
+}

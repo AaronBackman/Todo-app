@@ -1,31 +1,12 @@
+.todo-list-container {
+  height: 100%;
+}
+
 .todo-list {
   display: flex;
   flex-direction: column;
   border: 1px solid black;
   overflow-y: scroll;
-}
-
-.sort-bar {
-  display: flex;
-  justify-content: space-between;
-}
-
-.sort-bar-text {
-  flex-grow: 1;
-  background-color: #e65842;
-  box-sizing: border-box;
-  border: 1px solid black;
-  cursor: pointer;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  height: 40px;
-}
-
-.sort-bar-text:hover {
-  background-color: #ff3300;
 }
 
 .add-item-button {

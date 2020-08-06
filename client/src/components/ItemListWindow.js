@@ -2,6 +2,8 @@ import React from 'react';
 
 import TodoListPart from './TodoListPart.js';
 
+import '../styles/ItemListWindow.css';
+
 function ItemListWindow(props) {
   // divides into parts containing different todoItems
   //(eg. before today, today, in a week, in a month...)

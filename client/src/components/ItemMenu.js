@@ -16,13 +16,15 @@ function ItemMenu(props) {
   // get width of the scroll bar
   const scrollDiv = document.querySelector('.todo-list');
   const scrollBarWidth = scrollDiv.offsetWidth - scrollDiv.clientWidth - 2 * 1;
+  const todoItemContainerPaddingBorderWidth = 6;
 
   return (
     <div
       style={
         {
           top: `${boundingRect.top}px`,
-          left: `${boundingRect.right + scrollBarWidth}px`,
+          left: `${boundingRect.right + scrollBarWidth +
+                    todoItemContainerPaddingBorderWidth}px`,
         }}
       className="menu-container"
       onClick={e => e.stopPropagation()}

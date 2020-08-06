@@ -27,7 +27,8 @@ router.get('/:username/:password', (request, response) => {
         response.status(200).send();
       }
     });
-
+    
+    connection.release();
   });
 });
 
@@ -61,6 +62,7 @@ router.post('/:username/:password', (request, response) => {
       }
     });
     
+    connection.release();
   });
 });
 

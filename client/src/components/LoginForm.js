@@ -2,7 +2,13 @@ import React from 'react';
 import "../styles/LogInForm.css";
 
 function LogInForm(props) {
-  const {handleSubmit, newCredentials, setNewCredentials, text} = props;
+  const {
+    handleSubmit,
+    newCredentials,
+    setNewCredentials,
+    setShowLogIn,
+    text
+  } = props;
 
   return (
     <form className="log-in-form">
@@ -14,7 +20,11 @@ function LogInForm(props) {
           onChange={e => {
             const username = e.target.value;
             setNewCredentials(
-                {username: username, password: newCredentials.password}
+                {
+                  username: username,
+                  password: newCredentials.password,
+                  loggedIn: true,
+                }
               );
             }}/>
       </div>
@@ -27,13 +37,24 @@ function LogInForm(props) {
           onChange={e => {
             const password = e.target.value;
             setNewCredentials(
-                {username: newCredentials.username, password: password}
+                {
+                  username: newCredentials.username,
+                  password: password,
+                  loggedIn: true,
+                }
               );
             }}/>
       </div>
 
-      <div onClick={handleSubmit} className="submit-button-container">
-        <div>{text}</div>
+      <div className="login-buttons-container">
+        <div onClick={handleSubmit} className="login-button">
+          <div>{text}</div>
+        </div>
+        <div className="login-button"
+          onClick={() => (setShowLogIn({none: true}))}
+        >
+          <div>Cancel</div>
+        </div>
       </div>
     </form>
   );

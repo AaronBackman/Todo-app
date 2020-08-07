@@ -70,17 +70,19 @@ function TodoItem(props) {
       return false;
     });
 
-    fetch(`${path}/todoitems/${username}/${password}/${todoItem.id}`,
-      {
-        headers: {
-          "content-type": "application/json",
-        },
-        method: "PUT",
-        body: JSON.stringify(todoItem),
-      })
-        .then(() => {
-          setTodoItems(newTodoItems);
+    setTodoItems(newTodoItems);
+
+    // if logged in send to the server
+    if (!credentials.loggedOut) {
+      fetch(`${path}/todoitems/${username}/${password}/${todoItem.id}`,
+        {
+          headers: {
+            "content-type": "application/json",
+          },
+          method: "PUT",
+          body: JSON.stringify(todoItem),
         });
+    }
   }
 
   let todoItem = props.todoItem;

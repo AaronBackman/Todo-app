@@ -15,36 +15,33 @@ function AddItemWindow(props) {
     setNewTodoItem({});
     setShowWindow({itemListWindow: true});
 
-    fetch(path + `/todoitems/${username}/${password}`,
-    {
-      headers: {
-        "content-type": "application/json",
-      },
-      method: "POST",
-      body: JSON.stringify(newTodoItem),
-    });
+    // send to the server if user is logged in
+    if (!credentials.loggedOut) {
+      fetch(path + `/todoitems/${username}/${password}`,
+      {
+        headers: {
+          "content-type": "application/json",
+        },
+        method: "POST",
+        body: JSON.stringify(newTodoItem),
+      });
+    }
   }
 
   // return first unused index (id) in todoItems
   function firstFreeIndex(todoItems) {
-    function checkIfNoMatch(item, value) {
-      if (item.id === value) return false;
+    const indexes = todoItems.map(item => item.id);
+    // sort from smallest to highest
+    const sortedIndexes = indexes.sort((a, b) => (a - b));
 
-      return true
-    }
-
-    let index = 1;
+    let index = 0;
     while (true) {
-      // check if id is unused in the array
-      if (todoItems.every(item => checkIfNoMatch(item, index))) {
-        break;
-      }
+      if (index >= sortedIndexes.length) break;
 
-      // no unused id (smaller than or equal to length) was found
-      // => all smaller id values are used, length + 1 will be the new id
-      if (index === todoItems.length + 1) {
-        break;
-      }
+      // sortedIndexes start from 0 or higher and are sorted
+      // so if for example sortedIndexes[4] === 7
+      // that means some values were skipped and the result is 4
+      if (sortedIndexes[index] !== index) break
 
       index++;
     }

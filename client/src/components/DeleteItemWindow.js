@@ -19,10 +19,13 @@ function DeleteItemWindow(props) {
     setShowWindow({itemListWindow: true});
     setDeletedTodoItem({});
 
-    fetch(`${path}/todoitems/${username}/${password}/${deleteId}`,
-    {
-      method: "DELETE",
-    });
+    // send to the server if user is logged in
+    if (!credentials.loggedOut){
+      fetch(`${path}/todoitems/${username}/${password}/${deleteId}`,
+      {
+        method: "DELETE",
+      });
+    }
   }
 
   const {

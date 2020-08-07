@@ -110,7 +110,7 @@ function ItemListWindow(props) {
       onMouseDown={e => (e.preventDefault())}
     >
       <div className="todo-list"
-        style={{height: `${window.innerHeight - 131}px`}}
+        style={{height: `${window.innerHeight - 144}px`}}
       >
         <TodoListPart
           text="late"

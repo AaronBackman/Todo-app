@@ -22,14 +22,17 @@ function EditItemWindow(props) {
     setShowWindow({itemListWindow: true});
     setEditedTodoItem({});
 
-    fetch(`${path}/todoitems/${username}/${password}/${editId}`,
-    {
-      headers: {
-        "content-type": "application/json",
-      },
-      method: "PUT",
-      body: JSON.stringify(editedTodoItem),
-    });
+    // send to the server if user is logged in
+    if (!credentials.loggedOut) {
+      fetch(`${path}/todoitems/${username}/${password}/${editId}`,
+      {
+        headers: {
+          "content-type": "application/json",
+        },
+        method: "PUT",
+        body: JSON.stringify(editedTodoItem),
+      });
+    }
   }
 
   const {

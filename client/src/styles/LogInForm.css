@@ -22,7 +22,15 @@
   align-items: center;
 }
 
-.submit-button-container {
+.login-buttons-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  width: 80%;
+}
+
+.login-button {
   background-color: #6afc3e;
   padding: 5px 10px;
   border-radius: 15px;
@@ -33,6 +41,6 @@
   align-items: center;
 }
 
-.submit-button-container:hover {
+.login-button:hover {
   background-color: #a6ff8b;
 }

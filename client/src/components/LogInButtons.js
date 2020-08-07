@@ -3,12 +3,17 @@ import '../styles/logInButtons.css'
 
 // buttons to handle logging in and out and signing in
 function LogInButtons(props) {
-  const {credentials, setCredentials, setShowLogIn} = props;
+  const {credentials, setCredentials, setShowLogIn, setTodoItems} = props;
 
-  if (!credentials.default) {
+  if (!credentials.loggedOut) {
     return (
       <div className="button"
-        onClick={() => setCredentials({default: true})}
+        onClick={() => {
+            // clears todoItems
+            setTodoItems([]);
+            setCredentials({loggedOut: true});
+            setShowLogIn({none: true});
+          }}
       >
         <div>log out</div>
       </div>

@@ -3,7 +3,7 @@ import LogInForm from './LogInForm.js';
 
 function LogIn(props) {
   // checks with the server if the credentials are correct and logs in
-  async function handleCredentialsCheck(e) {
+  async function handleLogIn(e) {
     function sortByRemainingTime(todoItems) {
       const newTodoItems = todoItems.concat();
   
@@ -28,12 +28,30 @@ function LogIn(props) {
       return dateObj.getTime();
     }
 
-
-
     e.preventDefault();
 
     const username = newCredentials.username;
     const password = newCredentials.password;
+
+    if (username === '') {
+      setCredentialError(
+        {
+          message: "Username empty",
+        }
+      );
+
+      return;
+    }
+
+    if (password === '') {
+      setCredentialError(
+        {
+          message: "Password empty",
+        }
+      );
+
+      return;
+    }
 
     const url = `${path}/login/${username}/${password}`;
 
@@ -41,41 +59,81 @@ function LogIn(props) {
     const status = loginResponse.status;
 
     // credentials incorrect => login failed
-    if (status !== 200) {
-      return;
+    if (status === 200) {
+      // get user's todoitems from the server
+      const todoItemsResponse = await fetch(`${path}/todoitems/${username}/${password}`);
+      const todoItemsData = await todoItemsResponse.json();
+      setTodoItems(sortByRemainingTime(todoItemsData.todoItems));
+      setCredentials(newCredentials);
     }
 
-    // get user's todoitems from the server
-    const todoItemsResponse = await fetch(`${path}/todoitems/${username}/${password}`);
-    const todoItemsData = await todoItemsResponse.json();
-    setTodoItems(sortByRemainingTime(todoItemsData.todoItems));
-    setCredentials(newCredentials);
+    // incorrect username or password
+    if ((status === 401) || (status === 404)){
+      setCredentialError(
+        {
+          message: 'Incorrect credentials',
+        }
+      );
+    }
   }
 
 
   // creates new credentials in the server
-  function handleCredentialsAdd(e) {
+  async function handleSignUp(e) {
     e.preventDefault();
 
-    const url = 'http://localhost:9000/login' +
-                `/${newCredentials.username}/${newCredentials.password}`;
+    const username = newCredentials.username;
+    const password = newCredentials.password;
 
-    fetch(url,
+    if (username === '') {
+      setCredentialError(
+        {
+          message: "Username empty",
+        }
+      );
+
+      return;
+    }
+
+    if (password === '') {
+      setCredentialError(
+        {
+          message: "Password empty",
+        }
+      );
+
+      return;
+    }
+
+    const url
+      = `${path}/login/${username}/${password}`;
+
+    const response = await fetch(url,
     {
       headers: {
         "content-type": "text/plain",
       },
       method: "POST",
       body: '',
-    })
-      .then(response => {
-        if (response.status === 201) {
-          // clears todoItems
-          setTodoItems([]);
-          // creating a new user was accepted by the server
-          setCredentials(newCredentials);
+    });
+
+    const status = response.status;
+
+    if (status === 201) {
+      // clears todoItems
+      setTodoItems([]);
+      // creating a new user was accepted by the server
+      setCredentials(newCredentials);
+    }
+
+    // username is already used (no duplicate usernames allowed)
+    if ((status === 403) || (status === 404)) {
+      setCredentialError(
+        {
+          message: 'Username already used',
         }
-      });
+      );
+    }
   }
   
   const {
@@ -90,6 +148,10 @@ function LogIn(props) {
   const [newCredentials, setNewCredentials]
     = useState({username: '', password: ''});
 
+  // used to handle incorrect passwords/usernames in login
+  // or duplicate usernames in sign up
+  const [credentialError, setCredentialError] = useState({});
+
   // doesn't show the form when user is already logged in
   if (!credentials.loggedOut || showLogIn.none) {
     return (
@@ -101,11 +163,13 @@ function LogIn(props) {
   if (showLogIn.signUp) {
     return (
       <LogInForm
-        handleSubmit={handleCredentialsAdd}
+        handleSubmit={handleSignUp}
         newCredentials={newCredentials}
         setNewCredentials={setNewCredentials}
         setShowLogIn={setShowLogIn}
         text={'sign up'}
+        credentialError={credentialError}
+        setCredentialError={setCredentialError}
       />
     );
   }
@@ -114,11 +178,13 @@ function LogIn(props) {
   if (showLogIn.logIn) {
     return (
       <LogInForm
-        handleSubmit={handleCredentialsCheck}
+        handleSubmit={handleLogIn}
         newCredentials={newCredentials}
         setNewCredentials={setNewCredentials}
         setShowLogIn={setShowLogIn}
         text={'log in'}
+        credentialError={credentialError}
+        setCredentialError={setCredentialError}
       />
     );
   }

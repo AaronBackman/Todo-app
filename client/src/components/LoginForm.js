@@ -7,7 +7,9 @@ function LogInForm(props) {
     newCredentials,
     setNewCredentials,
     setShowLogIn,
-    text
+    text,
+    credentialError,
+    setCredentialError
   } = props;
 
   return (
@@ -20,13 +22,18 @@ function LogInForm(props) {
           onChange={e => {
             const username = e.target.value;
             setNewCredentials(
-                {
-                  username: username,
-                  password: newCredentials.password,
-                  loggedIn: true,
-                }
-              );
-            }}/>
+              {
+                username: username,
+                password: newCredentials.password,
+                loggedIn: true,
+              }
+            );
+
+            if (credentialError.message) {
+              // clear errors
+              setCredentialError({});
+            }
+          }}/>
       </div>
 
       <div className="input-container">
@@ -37,14 +44,25 @@ function LogInForm(props) {
           onChange={e => {
             const password = e.target.value;
             setNewCredentials(
-                {
-                  username: newCredentials.username,
-                  password: password,
-                  loggedIn: true,
-                }
-              );
-            }}/>
+             {
+                username: newCredentials.username,
+                password: password,
+                loggedIn: true,
+              }
+            );
+
+            if (credentialError.message) {
+              // clear errors
+              setCredentialError({});
+            }
+          }}/>
       </div>
+
+          <div className="error-message">
+            {(() => {
+              if (credentialError.message) return credentialError.message;
+            })()}
+          </div>
 
       <div className="login-buttons-container">
         <div onClick={handleSubmit} className="login-button">

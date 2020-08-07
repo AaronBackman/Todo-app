@@ -7,44 +7,45 @@ function EditItemWindow(props) {
   // PUTs todoItem made from user input to the server (replaces old version)
   function updateItem(e) {
     e.preventDefault();
-    
-    const editId = editedTodoItem.id
-    const username = credentials.username;
-    const password = credentials.password;
+
+    const editId = editedTodoItem.id;
+    const { username } = credentials;
+    const { password } = credentials;
 
     // change the edited todo item to the edited values, other items unchanged
-    setTodoItems(todoItems.map((todoItem => {
+    setTodoItems(todoItems.map(((todoItem) => {
       if (todoItem.id === editId) return editedTodoItem;
 
       return todoItem;
     })));
 
-    setShowWindow({itemListWindow: true});
+    setShowWindow({ itemListWindow: true });
     setEditedTodoItem({});
 
     // send to the server if user is logged in
     if (!credentials.loggedOut) {
       fetch(`${path}/todoitems/${username}/${password}/${editId}`,
-      {
-        headers: {
-          "content-type": "application/json",
-        },
-        method: "PUT",
-        body: JSON.stringify(editedTodoItem),
-      });
+        {
+          headers: {
+            'content-type': 'application/json',
+          },
+          method: 'PUT',
+          body: JSON.stringify(editedTodoItem),
+        });
     }
   }
 
   const {
     setShowWindow, todoItems, setTodoItems,
     editedTodoItem, setEditedTodoItem,
-    path, credentials
+    path, credentials,
   } = props;
 
   return (
     <TodoItemForm
       handleSubmit={updateItem}
-      todoItem={editedTodoItem} setTodoItem={setEditedTodoItem}
+      todoItem={editedTodoItem}
+      setTodoItem={setEditedTodoItem}
       setShowWindow={setShowWindow}
     />
   );

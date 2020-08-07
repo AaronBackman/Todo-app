@@ -6,38 +6,37 @@ function LogIn(props) {
   async function handleLogIn(e) {
     function sortByRemainingTime(todoItems) {
       const newTodoItems = todoItems.concat();
-  
+
       // sorts the ones that come earlier first
-      newTodoItems.sort((a, b) => {
+      newTodoItems.sort((a, b) =>
         // changes date string to milliseconds since 1970 and subtracts them
-        return parseDate(a.date) - parseDate(b.date);
-      });
-  
+        parseDate(a.date) - parseDate(b.date));
+
       return newTodoItems;
     }
-  
+
     // yyyy-mm-dd to milliseconds since 1970
-    function parseDate(date){
+    function parseDate(date) {
       const parts = date.split('-');
-  
+
       // in a date object months is zero-based
-      parts[1] = parts[1] - 1;
-  
+      parts[1] -= 1;
+
       const dateObj = new Date(parts[0], parts[1], parts[2]);
-  
+
       return dateObj.getTime();
     }
 
     e.preventDefault();
 
-    const username = newCredentials.username;
-    const password = newCredentials.password;
+    const { username } = newCredentials;
+    const { password } = newCredentials;
 
     if (username === '') {
       setCredentialError(
         {
-          message: "Username empty",
-        }
+          message: 'Username empty',
+        },
       );
 
       return;
@@ -46,8 +45,8 @@ function LogIn(props) {
     if (password === '') {
       setCredentialError(
         {
-          message: "Password empty",
-        }
+          message: 'Password empty',
+        },
       );
 
       return;
@@ -55,8 +54,8 @@ function LogIn(props) {
 
     const url = `${path}/login/${username}/${password}`;
 
-    const loginResponse = await fetch(url)
-    const status = loginResponse.status;
+    const loginResponse = await fetch(url);
+    const { status } = loginResponse;
 
     // credentials incorrect => login failed
     if (status === 200) {
@@ -68,28 +67,27 @@ function LogIn(props) {
     }
 
     // incorrect username or password
-    if ((status === 401) || (status === 404)){
+    if ((status === 401) || (status === 404)) {
       setCredentialError(
         {
           message: 'Incorrect credentials',
-        }
+        },
       );
     }
   }
-
 
   // creates new credentials in the server
   async function handleSignUp(e) {
     e.preventDefault();
 
-    const username = newCredentials.username;
-    const password = newCredentials.password;
+    const { username } = newCredentials;
+    const { password } = newCredentials;
 
     if (username === '') {
       setCredentialError(
         {
-          message: "Username empty",
-        }
+          message: 'Username empty',
+        },
       );
 
       return;
@@ -98,26 +96,25 @@ function LogIn(props) {
     if (password === '') {
       setCredentialError(
         {
-          message: "Password empty",
-        }
+          message: 'Password empty',
+        },
       );
 
       return;
     }
 
-    const url
-      = `${path}/login/${username}/${password}`;
+    const url = `${path}/login/${username}/${password}`;
 
     const response = await fetch(url,
-    {
-      headers: {
-        "content-type": "text/plain",
-      },
-      method: "POST",
-      body: '',
-    });
+      {
+        headers: {
+          'content-type': 'text/plain',
+        },
+        method: 'POST',
+        body: '',
+      });
 
-    const status = response.status;
+    const { status } = response;
 
     if (status === 201) {
       // clears todoItems
@@ -131,22 +128,21 @@ function LogIn(props) {
       setCredentialError(
         {
           message: 'Username already used',
-        }
+        },
       );
     }
   }
-  
-  const {
-          credentials,
-          setCredentials,
-          showLogIn,
-          setShowLogIn,
-          setTodoItems,
-          path
-        } = props;
 
-  const [newCredentials, setNewCredentials]
-    = useState({username: '', password: ''});
+  const {
+    credentials,
+    setCredentials,
+    showLogIn,
+    setShowLogIn,
+    setTodoItems,
+    path,
+  } = props;
+
+  const [newCredentials, setNewCredentials] = useState({ username: '', password: '' });
 
   // used to handle incorrect passwords/usernames in login
   // or duplicate usernames in sign up
@@ -167,7 +163,7 @@ function LogIn(props) {
         newCredentials={newCredentials}
         setNewCredentials={setNewCredentials}
         setShowLogIn={setShowLogIn}
-        text={'sign up'}
+        text="sign up"
         credentialError={credentialError}
         setCredentialError={setCredentialError}
       />
@@ -182,7 +178,7 @@ function LogIn(props) {
         newCredentials={newCredentials}
         setNewCredentials={setNewCredentials}
         setShowLogIn={setShowLogIn}
-        text={'log in'}
+        text="log in"
         credentialError={credentialError}
         setCredentialError={setCredentialError}
       />

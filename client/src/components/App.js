@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, { useState } from 'react';
 
 import LogInButtons from './LogInButtons';
 import TodoList from './TodoList.js';
@@ -8,10 +8,10 @@ import '../styles/App.css';
 
 function App() {
   // username and password (if logged in)
-  const [credentials, setCredentials] = useState({loggedOut: true});
+  const [credentials, setCredentials] = useState({ loggedOut: true });
   // none for nothing, logIn for existing users
   // and signIn for registering new users
-  const [showLogIn, setShowLogIn] = useState({none: true});
+  const [showLogIn, setShowLogIn] = useState({ none: true });
   const [todoItems, setTodoItems] = useState([]);
 
   const path = 'http://localhost:9000';

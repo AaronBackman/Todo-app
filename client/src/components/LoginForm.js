@@ -1,5 +1,5 @@
 import React from 'react';
-import "../styles/LogInForm.css";
+import '../styles/LogInForm.css';
 
 function LogInForm(props) {
   const {
@@ -9,7 +9,7 @@ function LogInForm(props) {
     setShowLogIn,
     text,
     credentialError,
-    setCredentialError
+    setCredentialError,
   } = props;
 
   return (
@@ -17,59 +17,64 @@ function LogInForm(props) {
       <div className="input-container">
         <label htmlFor="username">username</label>
         <input
-          type="text" name="username"
+          type="text"
+          name="username"
           value={newCredentials.username}
-          onChange={e => {
+          onChange={(e) => {
             const username = e.target.value;
             setNewCredentials(
               {
-                username: username,
+                username,
                 password: newCredentials.password,
                 loggedIn: true,
-              }
+              },
             );
 
             if (credentialError.message) {
               // clear errors
               setCredentialError({});
             }
-          }}/>
+          }}
+        />
       </div>
 
       <div className="input-container">
         <label htmlFor="password">password</label>
         <input
-          type="password" name="password"
+          type="password"
+          name="password"
           value={newCredentials.password}
-          onChange={e => {
+          onChange={(e) => {
             const password = e.target.value;
             setNewCredentials(
-             {
+              {
                 username: newCredentials.username,
-                password: password,
+                password,
                 loggedIn: true,
-              }
+              },
             );
 
             if (credentialError.message) {
               // clear errors
               setCredentialError({});
             }
-          }}/>
+          }}
+        />
       </div>
 
-          <div className="error-message">
-            {(() => {
-              if (credentialError.message) return credentialError.message;
-            })()}
-          </div>
+      <div className="error-message">
+        {(() => {
+          if (credentialError.message) return credentialError.message;
+        })()}
+      </div>
 
       <div className="login-buttons-container">
         <div onClick={handleSubmit} className="login-button">
           <div>{text}</div>
         </div>
-        <div className="login-button"
-          onClick={() => (setShowLogIn({none: true}))}
+        <div
+          className="login-button"
+          onClick={() => (setShowLogIn({ none: true }))}
         >
           <div>Cancel</div>
         </div>

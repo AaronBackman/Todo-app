@@ -7,16 +7,19 @@ import DeleteItemWindow from './DeleteItemWindow.js';
 
 function TodoList(props) {
   // if a window is shown to make and POST a new todo item
-  const [showWindow, setShowWindow] = useState({itemListWindow: true});
+  const [showWindow, setShowWindow] = useState({ itemListWindow: true });
   const [editedTodoItem, setEditedTodoItem] = useState({});
   const [deletedTodoItem, setDeletedTodoItem] = useState({});
 
-  const {todoItems, setTodoItems, credentials, path} = props;
+  const {
+    todoItems, setTodoItems, credentials, path,
+  } = props;
 
   if (showWindow.itemListWindow) {
     return (
       <ItemListWindow
-        todoItems={todoItems} setTodoItems={setTodoItems}
+        todoItems={todoItems}
+        setTodoItems={setTodoItems}
         setEditedTodoItem={setEditedTodoItem}
         setDeletedTodoItem={setDeletedTodoItem}
         setShowWindow={setShowWindow}
@@ -30,7 +33,8 @@ function TodoList(props) {
     return (
       <AddItemWindow
         setShowWindow={setShowWindow}
-        todoItems={todoItems} setTodoItems={setTodoItems}
+        todoItems={todoItems}
+        setTodoItems={setTodoItems}
         path={path}
         credentials={credentials}
       />
@@ -41,8 +45,10 @@ function TodoList(props) {
     return (
       <EditItemWindow
         setShowWindow={setShowWindow}
-        todoItems={todoItems} setTodoItems={setTodoItems}
-        editedTodoItem={editedTodoItem} setEditedTodoItem={setEditedTodoItem}
+        todoItems={todoItems}
+        setTodoItems={setTodoItems}
+        editedTodoItem={editedTodoItem}
+        setEditedTodoItem={setEditedTodoItem}
         path={path}
         credentials={credentials}
       />
@@ -54,12 +60,13 @@ function TodoList(props) {
       <DeleteItemWindow
         deletedTodoItem={deletedTodoItem}
         setDeletedTodoItem={setDeletedTodoItem}
-        todoItems={todoItems} setTodoItems={setTodoItems}
+        todoItems={todoItems}
+        setTodoItems={setTodoItems}
         setShowWindow={setShowWindow}
         path={path}
         credentials={credentials}
       />
-    )
+    );
   }
 }
 

@@ -1,9 +1,9 @@
+const mysql = require('mysql');
 const config = require('../config.js');
 
 const mysqlRootPassword = config.rootPassword;
-const databaseName = config.databaseName;
+const { databaseName } = config;
 
-const mysql = require('mysql');
 const pool = mysql.createPool({
   connectionLimit: 3,
   host: 'localhost',

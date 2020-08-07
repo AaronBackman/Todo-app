@@ -30,7 +30,7 @@ function TodoItem(props) {
     dateParts[2] = years;
 
     // take 0 from beginning of days and months (but not years)
-    for(let i = 0; i < dateParts.length - 1; i++) {
+    for (let i = 0; i < dateParts.length - 1; i++) {
       if (dateParts[i].slice(0, 1) === '0') {
         dateParts[i] = dateParts[i].slice(1);
       }
@@ -40,7 +40,7 @@ function TodoItem(props) {
     if (Number(dateParts[2]) === new Date().getFullYear()) {
       dateParts.pop();
     }
-    
+
     return dateParts.join('/');
   }
 
@@ -48,10 +48,10 @@ function TodoItem(props) {
   function handleCompletetion(e) {
     e.stopPropagation();
 
-    const username = credentials.username;
-    const password = credentials.password;
-    
-    const newTodoItems = todoItems.map(item => {
+    const { username } = credentials;
+    const { password } = credentials;
+
+    const newTodoItems = todoItems.map((item) => {
       if (item.id === todoItem.id) {
         const todoItemCopy = copyTodoItem(todoItem);
         // toggles the value of isCompleted
@@ -61,10 +61,10 @@ function TodoItem(props) {
       }
 
       return item;
-    })
+    });
 
     // set todoItem to match the updated value
-    todoItem = newTodoItems.find(item => {
+    todoItem = newTodoItems.find((item) => {
       if (item.id === todoItem.id) return true;
 
       return false;
@@ -77,20 +77,20 @@ function TodoItem(props) {
       fetch(`${path}/todoitems/${username}/${password}/${todoItem.id}`,
         {
           headers: {
-            "content-type": "application/json",
+            'content-type': 'application/json',
           },
-          method: "PUT",
+          method: 'PUT',
           body: JSON.stringify(todoItem),
         });
     }
   }
 
-  let todoItem = props.todoItem;
+  let { todoItem } = props;
 
   const {
     todoItems, setTodoItems, setShowWindow,
     setEditedTodoItem, setDeletedTodoItem,
-    path, credentials
+    path, credentials,
   } = props;
 
   // if true, shows options to edit or delete the item
@@ -100,11 +100,11 @@ function TodoItem(props) {
     <div
       id={todoItem.id}
       className={
-        'todo-list-item ' +
-        `${todoItem.priority.name + '-priority'} ` +
-        `${todoItem.isCompleted ?
-          'todo-item-completed':
-          'todo-item-uncompleted'}`
+        'todo-list-item '
+        + `${`${todoItem.priority.name}-priority`} `
+        + `${todoItem.isCompleted
+          ? 'todo-item-completed'
+          : 'todo-item-uncompleted'}`
         }
 
       onClick={() => {
@@ -119,23 +119,34 @@ function TodoItem(props) {
         <div>{formatDate(todoItem.date)}</div>
       </div>
 
-      {todoItem.isCompleted ?
-        <i className="material-icons check-box-completed"
-        onClick={handleCompletetion}
-        >check_box</i>:
-        <i className="material-icons check-box-uncompleted"
-        onClick={handleCompletetion}
-      >check_box_outline_blank</i>}
+      {todoItem.isCompleted
+        ? (
+          <i
+            className="material-icons check-box-completed"
+            onClick={handleCompletetion}
+          >
+            check_box
+          </i>
+        ) : (
+          <i
+            className="material-icons check-box-uncompleted"
+            onClick={handleCompletetion}
+          >
+            check_box_outline_blank
+          </i>
+        )}
 
-      {showItemMenu ?
-      <ItemMenu
-        setShowItemMenu={setShowItemMenu}
-        setShowWindow={setShowWindow}
-        setEditedTodoItem={setEditedTodoItem}
-        setDeletedTodoItem={setDeletedTodoItem}
-        todoItem={todoItem}
-      /> :
-      <></>}
+      {showItemMenu
+        ? (
+          <ItemMenu
+            setShowItemMenu={setShowItemMenu}
+            setShowWindow={setShowWindow}
+            setEditedTodoItem={setEditedTodoItem}
+            setDeletedTodoItem={setDeletedTodoItem}
+            todoItem={todoItem}
+          />
+        )
+        : <></>}
     </div>
   );
 }

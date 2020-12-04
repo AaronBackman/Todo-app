@@ -14,7 +14,7 @@ function App() {
   const [showLogIn, setShowLogIn] = useState({ none: true });
   const [todoItems, setTodoItems] = useState([]);
 
-  const path = 'http://localhost:9000';
+  const path = process.env.SERVER_PATH || "http://localhost:9000";
 
   return (
     <div className="container">

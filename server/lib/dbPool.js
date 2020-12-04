@@ -1,14 +1,16 @@
 const mysql = require('mysql');
 const config = require('../config.js');
 
-const mysqlRootPassword = config.rootPassword;
-const { databaseName } = config;
+const mysqlUsername = config.username;
+const mysqlPassword = config.userPassword;
+const databaseName = config.databaseName;
+const hostname = config.hostname;
 
 const pool = mysql.createPool({
   connectionLimit: 3,
-  host: 'localhost',
+  host: hostname,
   user: 'root',
-  password: mysqlRootPassword,
+  password: mysqlPassword,
   database: databaseName,
 });
 

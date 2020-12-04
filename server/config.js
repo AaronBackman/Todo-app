@@ -1,8 +1,5 @@
-require('dotenv').config();
-
-// you need to add .env file for the environment variables
-
-exports.rootPassword = process.env.ROOT_PASSWORD || 'default';
-exports.username = process.env.DB_USERNAME || 'default';
-exports.userPassword = process.env.DB_PASSWORD || 'default';
-exports.databaseName = process.env.DATABASE_NAME || 'default';
+exports.rootPassword = process.env.MYSQL_ROOT_PASSWORD || 'default';
+exports.username = process.env.MYSQL_USER || 'default';
+exports.userPassword = process.env.PASSWORD || 'default';
+exports.databaseName = process.env.MYSQL_DATABASE || 'default';
+exports.hostname = process.env.HOSTNAME || 'localhost';

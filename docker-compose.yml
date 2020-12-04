@@ -1,0 +1,33 @@
+version: '3'
+services:
+  todo-db:
+      image: todo-db
+      container_name: todo-db
+      ports:
+        - 3306:3306
+      environment:
+        - MYSQL_ROOT_PASSWORD=password
+        - MYSQL_DATABASE=todo-db
+        - MYSQL_USER=username
+        - PASSWORD=password
+  todo-client:
+    image: todo-client
+    ports:
+      - 3000:3000
+    stdin_open: true
+    depends_on:
+      - todo-server
+    environment:
+      - SERVER_PATH=todo-server:9000
+  todo-server:
+    image: todo-server
+    ports:
+      - 9000:9000
+    depends_on:
+      - todo-db
+    environment:
+      - MYSQL_ROOT_PASSWORD=password
+      - MYSQL_DATABASE=todo-db
+      - MYSQL_USER=username
+      - PASSWORD=password
+      - HOSTNAME=todo-db

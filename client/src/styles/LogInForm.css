@@ -20,6 +20,11 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 80%;
+}
+
+.input-container > input {
+  width: 100%;
 }
 
 .login-buttons-container {

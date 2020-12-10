@@ -1,7 +1,7 @@
 version: '3'
 services:
   todo-db:
-      image: todo-db
+      image: aaronbackman/todo-db
       container_name: todo-db
       ports:
         - 3306:3306
@@ -11,7 +11,7 @@ services:
         - MYSQL_USER=username
         - PASSWORD=password
   todo-client:
-    image: todo-client
+    image: aaronbackman/todo-client
     ports:
       - 3000:3000
     stdin_open: true
@@ -20,7 +20,7 @@ services:
     environment:
       - SERVER_PATH=todo-server:9000
   todo-server:
-    image: todo-server
+    image: aaronbackman/todo-server
     ports:
       - 9000:9000
     depends_on:
